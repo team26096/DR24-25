@@ -182,6 +182,38 @@ async def test_fake_missions():
                             initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
 
+# Run 2
+async def Run2():
+
+    # Go forward to take attatchment out of base 
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    distance = 20
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
+
+    # Go backward to get the attatchment flat
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(23)))
+    
+    # Move forward to approach and move mission up
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                 initial_position=initial_position, distance_to_cover=(degreesForDistance(50)))
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(51), 0, velocity=175)
+
+    # Go backward to get back to base 
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(42)))
+
+    # Turn left to get fully in base
+    await turn_left(speed=100, angle=24, stop=True)
+    
 async def mainProgram():
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
     print("mainProgram -- START")
@@ -194,33 +226,15 @@ async def mainProgram():
     motion_sensor.reset_yaw(0)
     await runloop.sleep_ms(1000)
 
+    print("calling Run2")
+
+    await Run2()
+    
+
     # i = 0
     # while (hub.motion_sensor.stable() == False):
     #    i = i+1
     #    await runloop.sleep_ms(100)
     #    hub.light_matrix.write(str(i))
-
-
-    # await test_follow_gyro_angle_for_distance(60)
-    # await runloop.sleep_ms(1000)
-    # await test_follow_gyro_angle_for_distance(-180)
-
-    # await test_turn_left(90)
-    # await runloop.sleep_ms(1500)
-    # await test_turn_right(90)
-
-    # await test_fake_missions()
-
-    await test_go_to_black_center()
-
-    # await test_go_to_white_center()
-
-    # await test_go_to_black_left()
-
-    # await test_go_to_white_left()
-
-    #await test_go_to_white()
-
-    # await test_go_to_black_followed_by_white()
 
 runloop.run(mainProgram())
