@@ -71,12 +71,14 @@ async def follow_gyro_angle(kp,
     derivative = 0.0
     while (follow_for(**kwargs)):
         current_angle = get_yaw_value()
+        print("Current Angle = " + str(current_angle))
         error = current_angle - target_angle
         integral = integral + error
         derivative = error - last_error
         last_error = error
         # compute steering correction
         steering_value = (error * kp) + (integral * ki) + (derivative * kd)
+
 
         if sleep_time:
             runloop.sleep_ms(sleep_time)
@@ -104,7 +106,7 @@ async def test_follow_gyro_angle_for_distance(distance):
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     print("degreesForDistance = {}".format(str(degreesForDistance(distance))))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=1000*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
 async def test_turn_left(angle=90):
@@ -169,7 +171,7 @@ async def test_fake_missions():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     distance = -25
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=800*(int(distance/abs(distance))), target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
 
@@ -180,7 +182,7 @@ async def test_fake_missions():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     distance = 20
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=179, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-0.9*(int(distance/abs(distance))), ki=0, kd=0.1, speed=650*(int(distance/abs(distance))), target_angle=179, sleep_time=0, follow_for=follow_for_distance,
                             initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
 async def mainProgram():
@@ -194,6 +196,11 @@ async def mainProgram():
     motion_sensor.set_yaw_face(motion_sensor.TOP)
     motion_sensor.reset_yaw(0)
     await runloop.sleep_ms(1000)
-    
+
+    await test_follow_gyro_angle_for_distance(10)
+    await test_turn_right()
+
+
+
 
 runloop.run(mainProgram())
