@@ -185,7 +185,7 @@ async def run6():
     # go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=150, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(81)))
 
     # turn right to align with feed the whale
@@ -194,6 +194,25 @@ async def run6():
     # move forward to open whale's mouth
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(10), 0, velocity=175)
 
+    # turn motor to move food tray down
+    await motor.run_for_degrees(port.C, 720, 800)
+
+    # move motor to lift food tray so it does not make whale vomit while coming back
+    await motor.run_for_degrees(port.C, 720, -800)
+
+    # Move robot back to move away from feed the whale
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(-10), 0, velocity=175)
+
+    # Turn robot to align with sonar discovery
+    await pivot_gyro_turn_abs(50, -50, 45, True)
+    
+    # Move robot back to get ready to complete sonar discorvery
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(-15), 0, velocity=175)
+
+    # reset yaw to 0
+    motion_sensor.set_yaw_face(motion_sensor.TOP)
+    motion_sensor.reset_yaw(0)
+    await runloop.sleep_ms(1000)
 
 
 
