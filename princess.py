@@ -259,6 +259,70 @@ async def run2():
     # turn left to get fully in base
     await turn_left(speed=100, angle=24, stop=True)
 
+# run 3 program - Raise the mast, Kraken's treasure, Diver Pickup, Coreal buds
+async def run3():
+    # go straight to get out of base (backward)
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(25)))
+
+    # turn right to get away from coral tree
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=45, stop=True)
+
+    # go straight (backward) to align wiht shipwreck
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(23)))
+
+    # turn right to get in front of shipwreck
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=90, stop=True)
+
+    # go straight to engage with shipwreck
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-100, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(25)))
+
+    await sound.beep()
+
+    # go even more straight to engage with krackens treasure
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(5)))
+    #nmotor_pair.move_tank_for_time(motor_pair.PAIR_1, -500, -500, 1500, acceleration=5000)
+
+    await sound.beep()
+
+    # come back to collect treasure and release mast
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(15)))
+
+    # lower fork arm to get in position to pick up diver
+    motor.run_for_degrees(port.B, 2200, -800)
+
+    # turn left to prepare for alignment with coral tree
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=0, stop=True)
+
+    # go forward to prepare for alignment with coral tree
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(12)))
+
+    # turn right to get in alignment with coral tree
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=90, stop=True)
+
+    # go straight to push coral tree buds
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(10), 0, velocity=100)
+
+    # raise fork arm to pick up diver
+    motor.run_for_degrees(port.B, 2200, 800)
+  
 async def mainProgram():
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
     print("mainProgram -- START")
