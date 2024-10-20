@@ -4,7 +4,7 @@ import hub
 import sys
 
 from hub import light_matrix, button, motion_sensor, light, sound, port
-
+# START Common Functions--------------------------------------------------------------------------------------------
 WHEEL_CIRCUMFERENCE = 17.584
 
 WHITE_COLOR_INTENSITY_MIN = 97
@@ -98,6 +98,8 @@ async def turn_left(speed=50, angle=90, stop=True):
 async def turn_right(speed=-50, angle=90, stop=True):
     await pivot_gyro_turn_abs(left_speed=speed, right_speed=0, angle=angle, stop=stop)
 
+# END Common Functions--------------------------------------------------------------------------------------------
+
 async def test_follow_gyro_angle_for_distance(distance):
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -181,6 +183,8 @@ async def test_fake_missions():
     await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=179, sleep_time=0, follow_for=follow_for_distance,
                             initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
+# START RUN Functions--------------------------------------------------------------------------------------------
+
 # run 1 program 
 async def run1():
     # turn 47 degrees to get in alignment wiht unexpected encounter
@@ -257,7 +261,9 @@ async def Run2():
 
     # turn left to get fully in base
     await turn_left(speed=100, angle=24, stop=True)
-    
+
+# END RUN Functions--------------------------------------------------------------------------------------------
+
 async def mainProgram():
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
     print("mainProgram -- START")
