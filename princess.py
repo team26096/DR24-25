@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 import color, color_sensor, device, motor, motor_pair, orientation, runloop
 import hub
-import sys
-import time
-
+import sys, time
 
 from hub import light_matrix, button, motion_sensor, light, sound, port
-
+# START Common Functions--------------------------------------------------------------------------------------------
 WHEEL_CIRCUMFERENCE = 17.584
 
 WHITE_COLOR_INTENSITY_MIN = 97
@@ -100,88 +98,9 @@ async def turn_left(speed=50, angle=90, stop=True):
 async def turn_right(speed=-50, angle=90, stop=True):
     await pivot_gyro_turn_abs(left_speed=speed, right_speed=0, angle=angle, stop=stop)
 
-async def test_follow_gyro_angle_for_distance(distance):
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    print("degreesForDistance = {}".format(str(degreesForDistance(distance))))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+# END Common Functions--------------------------------------------------------------------------------------------
 
-async def test_turn_left(angle=90):
-    await turn_left(speed=350, angle=angle, stop=True)
-
-async def test_turn_right(angle=0):
-    await turn_right(speed=350, angle=0, stop=True)
-
-async def test_go_to_black_center(reverse=False):
-    await follow_gyro_angle(kp=-1.45*(1 if reverse else -1), ki=0, kd=0,
-                            speed=250*(-1 if reverse else 1), target_angle=0, sleep_time=0, follow_for=follow_for_color_black_center)
-
-async def test_go_to_white_center(reverse=False):
-    await follow_gyro_angle(kp=-1.45*(1 if reverse else -1), ki=0, kd=0,
-                            speed=250*(-1 if reverse else 1), target_angle=0, sleep_time=0, follow_for=follow_for_color_white_center)
-
-async def test_go_to_black_left(reverse=False):
-    await follow_gyro_angle(kp=-1.45*(1 if reverse else -1), ki=0, kd=0,
-                            speed=250*(-1 if reverse else 1), target_angle=0, sleep_time=0, follow_for=follow_for_color_black_left)
-
-async def test_go_to_white_left(reverse=False):
-    await follow_gyro_angle(kp=-1.45*(1 if reverse else -1), ki=0, kd=0,
-                            speed=250*(-1 if reverse else 1), target_angle=0, sleep_time=0, follow_for=follow_for_color_white_left)
-
-async def test_fake_missions():
-    # Go forward 20 cm
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    distance = 20
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
-
-    # turn left 45 degrees
-    await turn_left(speed=100, angle=45, stop=True)
-
-    # go forward 12 cm
-    distance = 12
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
-
-    # go back 12 cm
-    distance = -12
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
-
-
-    # Turn right to 45
-    await turn_right(speed=150, angle=45, stop=True)
-
-    # Go forward 25 cm
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    distance = 25
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
-
-    # Go back 25 cm
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    distance = -25
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
-
-
-    # Turn right to 180 (facing to the pit)
-    await turn_right(speed=150, angle=179, stop=True)
-
-    # Go to pit
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    distance = 20
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=250*(int(distance/abs(distance))), target_angle=179, sleep_time=0, follow_for=follow_for_distance,
-                            initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+# START RUN Functions--------------------------------------------------------------------------------------------
 
 # run 1 program
 async def run1():
@@ -229,146 +148,224 @@ async def run1():
                 initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
 
 # run 2 program
-async def run2():
+async def Run2():
 
     # go forward to take attatchment out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     distance = 20
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(10)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
 
     # go backward to get the attatchment flat
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(12)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(23)))
 
     # move forward to approach and move mission up
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(47), 0, velocity=180)
-
-    # Shake to ensure the hoop let's go of attatchment
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(6), 0, velocity=400)
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(3), 0, velocity=-400)
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(3), 0, velocity=400)
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(50)))
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(51), 0, velocity=175)
 
     # go backward to get back to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(44)))
+    distance = -42
+    await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=400*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+
+    runloop.sleep_ms(500)
+    await turn_left(speed=100, angle=-25, stop=True)
+    runloop.sleep_ms(500)
+
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    distance = 5
+    await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=400*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+
+
 
     # turn left to get fully in base
-    await turn_left(speed=100, angle=24, stop=True)
+    # await turn_left(speed=100, angle=24, stop=True)
 
-# run 3 program - Raise the mast, Kraken's treasure, Diver Pickup, Coral buds
-async def run3():
+ # run 6 program
+async def run6():
 
-    # go straight to get out of base (backward)
+    # # go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(75)))
 
-    # turn right to get away from coral tree
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=30, stop=True)
+    # turn right to align with feed the whale
+    await pivot_gyro_turn_abs(150, -150, 45, True)
 
-    # go straight (backward) to align with shipwreck
+    # move forward to open whale's mouth
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(12), 0, velocity=190)
+
+    # turn motor to move food tray down
+    await motor.run_for_degrees(port.B, 1080, 1000)
+
+    # move motor to lift food tray so it does not make whale vomit while coming back
+    await motor.run_for_degrees(port.B, 720, -1000)
+
+    # move robot back to move away from feed the whale
     motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=30, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(27)))
-
-    # turn right to get in front of shipwreck
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=90, stop=True)
-
-    # go straight to engage with shipwreck
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-150, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(27)))
-
-    # come back to collect treasure and release mast
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(15)))
-
-    # lower fork arm to get in position to pick up diver
-    motor.run_for_degrees(port.B, 2075, -800)
-
-    # turn left to prepare for alignment with coral tree
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=0, stop=True)
-
-    # go forward to prepare for alignment with coral tree
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(12)))
-
-    # turn right to get in alignment with coral tree
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=88, stop=True)
-
-    # go straight to push coral tree buds
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(12), 0, velocity=100)
-
-    # raise fork arm to pick up diver
-    await motor.run_for_degrees(port.B, 600, 500)
-    motor.run_for_degrees(port.B, 500, 500)
-
-    # lower Shark Hook to push the shark misson lever
-    motor.run_for_degrees(port.C, 200, 700)
-
-    # reset yaw to 0
     motion_sensor.set_yaw_face(motion_sensor.TOP)
     motion_sensor.reset_yaw(0)
-    await runloop.sleep_ms(1000)
+    await runloop.sleep_ms(500)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(22))
 
-    # raise shark hook
-    motor.run_for_degrees(port.C, 150, -200)
+    # turn robot to align for Sonar Discovery
+    await pivot_gyro_turn_abs(105, -105, 138, stop=True)
 
-    # come back from Coral tree to get in alignment with Coral buds
+    # move robot back to complete alignment with Sonar Discovery
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(9)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=138, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(38))
 
-    # turn right to get in alignment with coral nursery
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=90, stop=True)
+    # turn Sonar Discovery attachment motor to complete Sonar Discovery
+    await motor.run_for_degrees(port.C, 720, -500)
 
-    # come back to get in alignment with coral nursery
+    # turn attachment other way so it does not get stuck
+    await motor.run_for_degrees(port.C, -300, -500)
+
+    # # move forward to come back to base
+    # await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(35), 0, velocity=1000)
+
+    # move forward to come to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(5)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=850, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(35))
 
-    # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.B, 900, -500)
-
-    # turn right to get in alignment with coral nursery
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=94, stop=True)
-
-    # go forward towards scuba diver drop off
+    # go forward to end in base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=94, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(7)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=105, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(45))
 
-    # put fork down to fully release Scuba Diver
-    await motor.run_for_degrees(port.B, 250, -400)
 
-    # come back from to get away from coral nursery
+     
+
+
+
+
+    # # turn robot to go into base without being out
+    # await pivot_gyro_turn_abs(-700, 700, 110, True)
+
+    # # move forward to go and end in base
+    # await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(50), 0, velocity=1000)
+
+
+
+
+
+    # # Start going to Sonar Discovery
+    # motor.reset_relative_position(port.A, 0)
+
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=-300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(11.5)))
+
+    # # Turn robot to align with sonar discovery
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # await pivot_gyro_turn_abs(0, -150, 50, True)
+
+    # # Go reverse past Sonar Discovery
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # distance = -65
+    # await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=350*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+
+    # Turn left slightly
+    # await turn_left(angle=-15)
+
+    # # Go forward towards Sonar Discovery mission
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # distance = 13
+    # await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=350*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+
+    # Turn right slightly to align with Sonar Discovery mission
+    # await turn_right(speed=100, angle=13)
+
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # distance = 17
+    # await follow_gyro_angle(kp=-1.25*(int(distance/abs(distance))), ki=0.002, kd=-0.001, speed=350*(int(distance/abs(distance))), target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+
+    # Move robot back to get ready to complete sonar discorvery
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+
+    # await pivot_gyro_turn_abs(0, -150, 0, True)
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=-175, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #                initial_position=initial_position, distance_to_cover=(degreesForDistance(25)))
+
+    # # reset yaw to 0
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # await runloop.sleep_ms(1000)
+
+   
+ # run 7 program
+async def run7(): 
+    # move forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=94, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(10)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(30))
 
-    # come back to get to base
+    # turn left to closer to artificial habitat
+    await turn_left(speed=100, angle=-20, stop=True)    
+
+    # move forward to get closer to the mission so we can be more precise
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(65)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=-24, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(2.5))
+    
+    # # Turn right to flick mission into new position
+    await turn_right(speed=1000, angle=45, stop=True)
 
+    # turn left to closer to artificil habitat
+    # await pivot_gyro_turn_abs(left_speed=0, right_speed=-500, angle=0, stop=True)
+
+    # # Move attachment up so it will not get in the way  
+    # motor.run_for_degrees(port.B, 50, -100)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# END RUN Functions--------------------------------------------------------------------------------------------
 
 async def mainProgram():
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
@@ -383,13 +380,13 @@ async def mainProgram():
     await runloop.sleep_ms(1000)
 
     # print("calling run1")
-    print("calling run3")
+    # print("calling run2")
     # await run1()
-    ct = time.ticks_ms()
-    await run3()
-    et = time.ticks_ms()
+    # await run2()
+    ct=time.ticks_ms()
+    await run7()
+    et=time.ticks_ms()
     print("Total run time =" + str(time.ticks_diff(et, ct)/1000))
-
 
     # i = 0
     # while (hub.motion_sensor.stable() == False):
@@ -398,3 +395,4 @@ async def mainProgram():
     #    hub.light_matrix.write(str(i))
 
 runloop.run(mainProgram())
+
