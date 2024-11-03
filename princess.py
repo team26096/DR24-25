@@ -253,7 +253,7 @@ async def run6():
         initial_position=initial_position, distance_to_cover=degreesForDistance(45))
 
 
-     
+
 
 
 
@@ -324,31 +324,32 @@ async def run6():
     # motion_sensor.reset_yaw(0)
     # await runloop.sleep_ms(1000)
 
-   
+
  # run 7 program
-async def run7(): 
+async def run7():
     # move forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degreesForDistance(30))
+        initial_position=initial_position, distance_to_cover=degreesForDistance(33.5))
 
     # turn left to closer to artificial habitat
-    await turn_left(speed=100, angle=-20, stop=True)    
+    await turn_left(speed=100, angle=-18, stop=True)
 
     # move forward to get closer to the mission so we can be more precise
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=-24, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degreesForDistance(2.5))
-    
-    # # Turn right to flick mission into new position
-    await turn_right(speed=1000, angle=45, stop=True)
+        initial_position=initial_position, distance_to_cover=degreesForDistance(2))
+
+    # Turn right to flick mission into new position
+    await pivot_gyro_turn_abs(700, -700, 30, True)
+
 
     # turn left to closer to artificil habitat
     # await pivot_gyro_turn_abs(left_speed=0, right_speed=-500, angle=0, stop=True)
 
-    # # Move attachment up so it will not get in the way  
+    # # Move attachment up so it will not get in the way
     # motor.run_for_degrees(port.B, 50, -100)
 
 
@@ -395,4 +396,3 @@ async def mainProgram():
     #    hub.light_matrix.write(str(i))
 
 runloop.run(mainProgram())
-
