@@ -10,7 +10,7 @@ WHEEL_CIRCUMFERENCE = 17.584
 WHITE_COLOR_INTENSITY_MIN = 97
 BLACK_COLOR_INTENSITY_MAX = 18
 
-COLOR_SENSOR_CENTER_PORT = port.C
+COLOR_SENSOR_CENTER_PORT = port.F
 COLOR_SENSOR_LEFT_PORT = port.D
 
 def follow_for_distance(initial_position=0,
@@ -26,17 +26,23 @@ def follow_for_distance(initial_position=0,
 def get_color_values():
     return color_sensor.reflection(COLOR_SENSOR_CENTER_PORT), color_sensor.reflection(COLOR_SENSOR_LEFT_PORT)
 
+def get_center_color_values():
+    return color_sensor.reflection(COLOR_SENSOR_CENTER_PORT)
+
+def get_left_color_values():
+    return color_sensor.reflection(COLOR_SENSOR_LEFT_PORT)
+
 def follow_for_color_white_center():
-    return get_color_values()[0] <= WHITE_COLOR_INTENSITY_MIN
+    return get_center_color_values() <= WHITE_COLOR_INTENSITY_MIN
 
 def follow_for_color_black_center():
-    return get_color_values()[0] >= BLACK_COLOR_INTENSITY_MAX
+    return get_center_color_values() >= BLACK_COLOR_INTENSITY_MAX
 
 def follow_for_color_white_left():
-    return get_color_values()[1] <= WHITE_COLOR_INTENSITY_MIN
+    return get_left_color_values() <= WHITE_COLOR_INTENSITY_MIN
 
 def follow_for_color_black_left():
-    return get_color_values()[1] >= BLACK_COLOR_INTENSITY_MAX
+    return get_left_color_values() >= BLACK_COLOR_INTENSITY_MAX
 
 def get_yaw_value():
     return motion_sensor.tilt_angles()[0] * -0.1
@@ -45,7 +51,7 @@ def degreesForDistance(distance_cm):
     # Add multiplier for gear ratio if needed
     return int((distance_cm/WHEEL_CIRCUMFERENCE) * 360)
 
-def wait_for_yaw_abs(angle=0):
+def wait_for_yaw_abs(angle=0.0):
     abs_angle = abs(angle)
     abs_current_yaw = abs(get_yaw_value())
     if angle == 0:
@@ -86,14 +92,14 @@ async def follow_gyro_angle(kp,
     # stop when follow_for condition is met
     motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
-def pivot_gyro_turn_abs_sync(left_speed=0, right_speed=50, angle=90, stop=False):
+def pivot_gyro_turn_abs_sync(left_speed=0, right_speed=50, angle=90.0, stop=False):
     motor_pair.move_tank(motor_pair.PAIR_1, left_speed, right_speed)
     # print("pivot_gyro_turn - " + "target angle=" + str(angle) + "current angle ="+ str(get_yaw_value()))
     wait_for_yaw_abs(angle=angle)
     if stop: motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
 
-async def pivot_gyro_turn_abs(left_speed=0, right_speed=50, angle=90, stop=False, accleration=1000):
+async def pivot_gyro_turn_abs(left_speed=0, right_speed=50, angle=90.0, stop=False, accleration=1000):
     motor_pair.move_tank(motor_pair.PAIR_1, left_speed, right_speed, acceleration=accleration)
     # print("pivot_gyro_turn - " + "target angle=" + str(angle) + "current angle ="+ str(get_yaw_value()))
     wait_for_yaw_abs(angle=angle)
@@ -339,14 +345,15 @@ async def run7():
     # move forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degreesForDistance(36))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(37))
     motor.reset_relative_position(port.A, 0)
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degreesForDistance(5.5))
 
     # turn right to flick mission into new position
-    await pivot_gyro_turn_abs(1000, -1000, 40, True, accleration=5000)
+    await pivot_gyro_turn_abs(-400, 400, -15, True, accleration=5000)
+    await pivot_gyro_turn_abs(1000, -1000, 50, True, accleration=5000)
     
     # turn left to get back in alignment with Artificil Habitat
     await pivot_gyro_turn_abs(-200, 200, -0, True)
@@ -370,7 +377,7 @@ async def run7():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degreesForDistance(8))
+        initial_position=initial_position, distance_to_cover=degreesForDistance(10))
 
     # bring scooper up to get ready to complete mission
     await motor.run_for_degrees(port.B, 150, 1000)
@@ -379,7 +386,61 @@ async def run7():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degreesForDistance(20))
+        initial_position=initial_position, distance_to_cover=degreesForDistance(8))
+
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(11.5), 0, velocity=100, )    
+
+    # move robot back to move away from Artificial Habitat
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-200, target_angle=2, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(14))
+
+    # turn right to go towards Angler Fish
+    await pivot_gyro_turn_abs(200, -200, 48, True)    
+
+    # move robot forward to keep going towards Angler Fish
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=48, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(54))
+    
+    # turn left to flick the handle of the Angler fish
+    await pivot_gyro_turn_abs(-200, 200, 35 , True)
+
+    # turn right to go towards Submersible
+    await pivot_gyro_turn_abs(200, -200, 86, True)
+
+    # bring scooper down to get ready to slightly lift misiion up
+    motor.run_for_degrees(port.B, -110, 800)
+
+    # go forward towards Submersible
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=86, sleep_time=0, follow_for=follow_for_color_white_center)
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=86, sleep_time=0, follow_for=follow_for_color_black_center)
+
+    # turn right to align with Submersible
+    # await pivot_gyro_turn_abs(200, -200, 90, True)
+
+    # # go forward towards Submersible
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=86, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=degreesForDistance(3))
+
+    # bring scoopr up to hold mission's yellow beam
+    await motor.run_for_degrees(port.B, 115, 850)
+
+    # sleep to hold submersible yellow beam up
+    await runloop.sleep_ms(3000)   
+    
+    # turn left to align with dropping octupus
+    await pivot_gyro_turn_abs(-200, 200, 45, True)
+
+    # move robot back to end in postion of dropping off octupus
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=10, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degreesForDistance(10))
 
 
 # END RUN Functions--------------------------------------------------------------------------------------------
