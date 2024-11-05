@@ -185,48 +185,60 @@ async def test_fake_missions():
 
 # run 1 program
 async def run1():
-    # turn 47 degrees to get in alignment wiht unexpected encounter
-    await turn_right(speed=100, angle=47, stop=True)
 
-    # go forward to push unexpected encounter lever and collect octopus
-    distance = -55
+    # turn left to get in alignment with krill
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=70, stop=True)
+
+    # go forward to collect krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=300*(int(distance/abs(distance))), target_angle=47, sleep_time=0, follow_for=follow_for_distance,
-                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=70, sleep_time=0, follow_for=follow_for_distance,
+               initial_position=initial_position, distance_to_cover=(degreesForDistance(25)))
 
-    # lower fork attachment to get in line with shipping lane levers
-    motor.run_for_degrees(port.C, 2400, 1000)
+    # turn left to get in alignment with neon pink coral pieces
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=80, stop=True)
 
-    # go backward from unexpected encounter to get in position with Changing Shipping Lane
-    distance = 10
+    # go forward to collect neon pink coral piece and krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=300*(int(distance/abs(distance))), target_angle=47, sleep_time=0, follow_for=follow_for_distance,
-                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=80, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degreesForDistance(24)))
 
-    # turn left to get in alignment with changing shipping lanes
-    await turn_left(speed=100, angle=-50, stop=True)
+    # turn to collect last krill
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=110, stop=True)
+
+    # go forward to collect last krill
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=110, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
+
+    # turn to get in alignment with changing shipping lanes
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=43, stop=True)
+
+    # go backward to lower changing shipping lanes scooper
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=43, sleep_time=0, follow_for=follow_for_distance,
+                initial_position=initial_position, distance_to_cover=(degreesForDistance(10)))
+
+    # lower scooper attachment
+    await motor.run_for_degrees(port.C, 3650, 2500)
 
     # go forward to engage with changing shipping lanes
-    distance = 7
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=-50, sleep_time=0, follow_for=follow_for_distance,
-                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=43, sleep_time=0, follow_for=follow_for_distance,
+                initial_position=initial_position, distance_to_cover=(degreesForDistance(10)))
 
-    # raise the ship and get to the amout where we can turn
-    await motor.run_for_degrees(port.C, 550, -800)
+    # raise scooper attachment to push boat
+    await motor.run_for_degrees(port.C, 800, -2000)
 
-    # turn right to get in position to drop changing shipping lanes
-    await turn_right(speed=100, angle=-20, stop=True)
-
-    # drop ship by going backward
-    distance = -7
+    # go forward to push changing shipping lanes and move it to the other side
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45*(int(distance/abs(distance))), ki=0, kd=0, speed=300*(int(distance/abs(distance))), target_angle=-20, sleep_time=0, follow_for=follow_for_distance,
-                initial_position=initial_position, distance_to_cover=(degreesForDistance(distance)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=43, sleep_time=0, follow_for=follow_for_distance,
+                initial_position=initial_position, distance_to_cover=(degreesForDistance(5)))
 
 # run 2 program
 async def run2():
