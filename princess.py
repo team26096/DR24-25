@@ -31,8 +31,9 @@ async def doInit():
     # reset yaw to 0
     motion_sensor.set_yaw_face(motion_sensor.TOP)
     motion_sensor.reset_yaw(0)
+    i = 0
     while (hub.motion_sensor.stable() == False):
-        i = i+1
+        i = i + 1
         await runloop.sleep_ms(10)
         hub.light_matrix.write(str(i))
         if i >= 100:
@@ -151,11 +152,11 @@ async def print_text_to_light_matrix(text, repeat=3):
     for _ in range(repeat):
         for char in str(text):
             # Display the character on the light matrix
-            hub.display.text(char)
-              # Wait 0.5 seconds
-            
+            light_matrix.write(char)
+            # Wait 0.5 seconds
+
             # Clear the matrix to create a flashing effect
-            hub.display.off()
+            light_matrix.off
             await runloop.sleep_ms(500)
 
         # Flash all LEDs at the end of the message
@@ -180,7 +181,7 @@ async def run1a():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degreesForDistance(5)))
-    
+
     # turn left to get in alignment with krill
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-45, stop=True)
 
@@ -301,11 +302,11 @@ async def run1():
     # turn to align with plankton
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=0, stop=True)
 
-    # go backward to hook into plankton 
+    # go backward to hook into plankton
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-           initial_position=initial_position, distance_to_cover=(degreesForDistance(6)))
+        initial_position=initial_position, distance_to_cover=(degreesForDistance(6)))
 
     # sleep to make sure plakton gets into the one-way gate
     await runloop.sleep_ms(500)
@@ -315,7 +316,7 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degreesForDistance(4)))
-    
+
     # turn to align with plankton
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-5, stop=True)
 
@@ -324,14 +325,14 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=-5, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degreesForDistance(15)))
-    
+
     # go forward to pull the plankton
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degreesForDistance(90)))
 
-     # turn to align with seabed sample
+    # turn to align with seabed sample
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-19, stop=True)
 
     # go forward while collecting krill and plankton and sample
@@ -340,10 +341,10 @@ async def run1():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-19, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degreesForDistance(25)))
 
-     # turn to collect new krill and plankton and water sample 
+    # turn to collect new krill and plankton and water sample
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-90, stop=True)
 
-    # go forward with all the krill and plankton and samples 
+    # go forward with all the krill and plankton and samples
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
@@ -352,7 +353,7 @@ async def run1():
     # turn to get in positon to get into base
     await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=-45, stop=True)
 
-    # go forward to get in base 
+    # go forward to get in base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
@@ -458,7 +459,7 @@ async def run3():
     motor.run_for_degrees(port.C, 200, 700)
 
     # reset yaw to 0
-    doInit()
+    await doInit()
 
     # raise shark hook
     motor.run_for_degrees(port.C, 150, -200)
@@ -582,7 +583,7 @@ async def run5():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-5.5, ki=0, kd=0, speed=350, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(62)))
-    
+
     # come back to ensure arm dosen't get stuck
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -618,7 +619,7 @@ async def run5():
 
 # RUN 6
 #----------------------------------------
-async def run5():
+async def run6():
     # go straight to get out of base and in position to drop shark
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -706,15 +707,15 @@ async def run7():
         initial_position=initial_position, distance_to_cover=degreesForDistance(5.5))
 
     # turn right to flick mission into new position
-    await pivot_gyro_turn_abs(-400, 400, -15, True, accleration=5000)
-    await pivot_gyro_turn_abs(800, -800, 50, True, accleration=5000)
+    await pivot_gyro_turn_abs(-400, 400, -15, True)
+    await pivot_gyro_turn_abs(800, -800, 50, True)
 
     # turn left to get back in alignment with Artificil Habitat
     await pivot_gyro_turn_abs(-200, 200, -0, True)
 
     # move forward to get closer to the mission so mission is set up correctly
     motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))                                                                                         
+    initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degreesForDistance(17))
 
@@ -799,10 +800,10 @@ async def run7():
 
 async def execute(run_numbers=None):
     runs_to_execute = list()
-    
+
     if isinstance(run_numbers, int):
-        runs_to_execute = [run_numbers]
-    
+        run_numbers = [run_numbers]
+
     # If run_numbers are not provided execute all runs
     runs_to_execute = run_numbers if run_numbers else [1, 3, 4, 5, 6, 7] # Skipping all runs
 
@@ -819,18 +820,18 @@ async def execute(run_numbers=None):
                             7: run7
                         }
     print("Start - Execute")
-    
+
     # Initialization
     # Define motor pai for robot movements
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
-    
+
     light_matrix.write("0")
     light.color(light.POWER, color.RED)
 
     # Reset Yaw
-    doInit()
+    await doInit()
 
-    for i, run_number in enumerate(run_numbers):
+    for i, run_number in enumerate(runs_to_execute):
 
         # waiting for left button to be pressed to start the run
         await runloop.until(is_left_button_pressed)
@@ -846,18 +847,18 @@ async def execute(run_numbers=None):
 
         print("Completed Run: " + str(run_number))
 
-        print("Time Taken for Run " + str(run_number) + " is " +  str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
+        print("Time Taken for Run " + str(run_number) + " is " +str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
         if i > 0:
-            print("Time Taken for Transition after last run was " +  str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
-    
+            print("Time Taken for Transition after last run was " +str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
+
     # Print execution times
-    for i, run_number in enumerate(run_numbers):
-        print("Time Taken for Run " + str(run_number) + " is " +  str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
+    for i, run_number in enumerate(runs_to_execute):
+        print("Time Taken for Run " + str(run_number) + " is " +str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
         if i > 0:
-            print("Time Taken for Transition after last run was " +  str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
+            print("Time Taken for Transition after last run was " +str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
 
 
 # END MAIN FUNCTION
 #----------------------------------------
 
-runloop.run(execute([6]))
+runloop.run(execute([5]))
