@@ -208,19 +208,20 @@ async def run6():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(15), 0, velocity=-190)
 
     # turn motor to move food tray down
-    await motor.run_for_degrees(port.B, 200, -1000)
+    await motor.run_for_degrees(port.B, 1000, -1000)
 
-    # move motor to lift food tray so it does not make whale vomit while coming back
-    await motor.run_for_degrees(port.B, 200, 1000)
-
-    # move robot forward to move away from feed the whale
-
+    # reset yaw to 0 and sleep to ensure the krill are in the whale
     motor.reset_relative_position(port.A, 0)
     motion_sensor.set_yaw_face(motion_sensor.TOP)
     motion_sensor.reset_yaw(0)
     await runloop.sleep_ms(500)
+
+    # move motor to lift food tray so it does not make whale vomit while coming back
+    await motor.run_for_degrees(port.B, 1000, 1000)
+
+    # move robot forward to move away from feed the whale
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degreesForDistance(15))
 
     # turn robot to align for Sonar Discovery
@@ -229,7 +230,7 @@ async def run6():
     # move backward to complete alignment with Sonar Discovery
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degreesForDistance(16))
 
     # turn Sonar Discovery attachment motor to complete Sonar Discovery
@@ -245,7 +246,7 @@ async def run6():
         initial_position=initial_position, distance_to_cover=degreesForDistance(5))
 
     # turn robot right to align for coming to base
-    await pivot_gyro_turn_abs(105, -105, 120, stop=True)
+    await pivot_gyro_turn_abs(200, -200, 120, stop=True)
 
     # move backward to come back to base
     motor.reset_relative_position(port.A, 0)
@@ -254,14 +255,14 @@ async def run6():
         initial_position=initial_position, distance_to_cover=degreesForDistance(64))
 
     # # turn robot right to align for coming to base
-    # await pivot_gyro_turn_abs(105, -105, 45, stop=True)   
+    # await pivot_gyro_turn_abs(105, -105, 45, stop=True)
 
     # # move backward to end in base
     # motor.reset_relative_position(port.A, 0)
     # initial_position = abs(motor.relative_position(port.A))
     # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-    #     initial_position=initial_position, distance_to_cover=degreesForDistance(50))
- 
+    #    initial_position=initial_position, distance_to_cover=degreesForDistance(50))
+
 
 
     # # # move forward to come back to base
@@ -271,13 +272,13 @@ async def run6():
     # motor.reset_relative_position(port.A, 0)
     # initial_position = abs(motor.relative_position(port.A))
     # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=850, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
-    #     initial_position=initial_position, distance_to_cover=degreesForDistance(35))
+    #    initial_position=initial_position, distance_to_cover=degreesForDistance(35))
 
     # # go forward to end in base
     # motor.reset_relative_position(port.A, 0)
     # initial_position = abs(motor.relative_position(port.A))
     # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=105, sleep_time=0, follow_for=follow_for_distance,
-    #     initial_position=initial_position, distance_to_cover=degreesForDistance(45))
+    #    initial_position=initial_position, distance_to_cover=degreesForDistance(45))
 
 
     # # turn robot to go into base without being out
