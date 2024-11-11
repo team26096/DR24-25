@@ -559,7 +559,7 @@ async def run5():
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(24)))
 
     # bring arm down to engage with research vessel
-    await motor.run_for_degrees(port.C, 2000, 1000)
+    await motor.run_for_degrees(port.C, 2025, 1000)
 
     # move rack more to catch krill
     await motor.run_for_degrees(port.B, 750, -700)
@@ -576,13 +576,13 @@ async def run5():
     # go forward with boat to get in the docking area
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-5.5, ki=0, kd=0, speed=350, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-5.5, ki=0, kd=0, speed=350, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(62)))
-    
+
     # come back to ensure arm dosen't get stuck
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-300, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(6)))
 
     # raise arm so it doesn't get in the way
@@ -592,21 +592,21 @@ async def run5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(37)))
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(30)))
 
     # turn to align with unexpected encounter
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=45, stop=True)
+    await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=45, stop=True)
 
-    # go back to push unexpected encounter lever and catch creature
+    # go forward (back) to push unexpected encounter lever and catch creature
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(33)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(34)))
 
-    # go forward to base
+    # go back (forward) to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(37)))
 
 # run 7 program
