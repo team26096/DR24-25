@@ -156,13 +156,16 @@ async def print_text_to_light_matrix(text, repeat=3):
             # Wait 0.5 seconds
 
             # Clear the matrix to create a flashing effect
-            light_matrix.off
+            light_matrix.clear()
             await runloop.sleep_ms(500)
 
         # Flash all LEDs at the end of the message
         await runloop.sleep_ms(500)
-        hub.display.off()
+        light_matrix.clear()
         await runloop.sleep_ms(500)
+
+def get_time_taken_in_seconds(start_time, end_time):
+    return int(time.ticks_diff(end_time, start_time)/1000)
 
 # END COMMON FUNCTIONS
 #----------------------------------------
@@ -805,7 +808,7 @@ async def execute(run_numbers=None):
         run_numbers = [run_numbers]
 
     # If run_numbers are not provided execute all runs
-    runs_to_execute = run_numbers if run_numbers else [1, 3, 4, 5, 6, 7] # Skipping all runs
+    runs_to_execute = run_numbers if run_numbers else [1, 3, 4, 5, 6, 7] # Skipping run 2
 
     start_times = [time.ticks_ms() for _ in runs_to_execute]
     end_times = [time.ticks_ms() for _ in runs_to_execute]
@@ -847,15 +850,18 @@ async def execute(run_numbers=None):
 
         print("Completed Run: " + str(run_number))
 
-        print("Time Taken for Run " + str(run_number) + " is " +str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
+        print("Time Taken for Run " + str(run_number) + " is " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " seconds.")
         if i > 0:
-            print("Time Taken for Transition after last run was " +str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
+            print("Time Taken for Transition after last run was " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " seconds.")
+        print("---------------------------------------------------------------------------")
 
     # Print execution times
+    print("---------------------------------------------------------------------------")
+    print("SUMMARY:")
     for i, run_number in enumerate(runs_to_execute):
-        print("Time Taken for Run " + str(run_number) + " is " +str(time.ticks_diff(end_times[i], start_times[i])/1000) + " seconds.")
+        print("Time Taken for Run " + str(run_number) + " is " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " seconds.")
         if i > 0:
-            print("Time Taken for Transition after last run was " +str(time.ticks_diff(start_times[i], end_times[i - 1])/1000) + " seconds.")
+            print("Time Taken for Transition after last run was " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " seconds.")
 
 
 # END MAIN FUNCTION
