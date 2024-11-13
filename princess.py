@@ -814,7 +814,7 @@ async def execute(run_numbers=None):
                             3: run3,
                             4: run4,
                             5: run5,
-                            5: run6,
+                            6: run6,
                             7: run7
                         }
     print("Start - Execute")
