@@ -860,21 +860,20 @@ async def execute(run_numbers=None):
         light.color(light.POWER, color.YELLOW)
 
         print("Completed Run: " + str(run_number))
-
-        print("Time Taken for Run " + str(run_number) + " is *" + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " seconds.*")
         if i > 0:
             print("Time Taken for Transition after last run was *" + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " seconds.*")
+        print("Time Taken for Run " + str(run_number) + " is *" + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " seconds.*")
         print("---------------------------------------------------------------------------")
 
     # Print execution times
     print("---------------------------------------------------------------------------")
     print("SUMMARY:")
     for i, run_number in enumerate(runs_to_execute):
-        print("Time Taken for Run *" + str(run_number) + " is " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + "* seconds.")
         if i > 0:
             print("Time Taken for Transition after last run was *" + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + "* seconds.")
-
-
+        
+        print("Time Taken for Run *" + str(run_number) + " is " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + "* seconds.")
+        
 # END MAIN FUNCTION
 #----------------------------------------
 
