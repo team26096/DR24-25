@@ -222,7 +222,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-80, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degreesForDistance(45)))
+            initial_position=initial_position, distance_to_cover=(degreesForDistance(40)))
 
     # turn right to align to seabed sample
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-90, stop=True)
@@ -231,7 +231,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degreesForDistance(42)))
+            initial_position=initial_position, distance_to_cover=(degreesForDistance(47)))
 
     # go forward (back) to leave pieces
     motor.reset_relative_position(port.A, 0)
@@ -246,10 +246,10 @@ async def run1():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(10),0,velocity=-300)
 
     # raise seabed sample hook to raise the sample and collect it
-    await motor.run_for_degrees(port.B, 700, 800)
-    motor.run_for_degrees(port.B, 1300, 800)
+    await motor.run_for_degrees(port.B, 900, 800)
+    motor.run_for_degrees(port.B, 1100, 800)
 
-    # come back (go forward) to leave seabed 
+    # come back (go forward) to leave seabed
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -290,6 +290,7 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=-125, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degreesForDistance(30)))
+
 
 
 # END RUN 1
