@@ -740,11 +740,19 @@ async def execute(run_numbers=None):
     # Print execution times
     print("---------------------------------------------------------------------------")
     print("SUMMARY:")
+    total_time_taken = 0
     for i, run_number in enumerate(runs_to_execute):
         if i > 0:
-            print("Time Taken for Transition after last run was *" + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + "* seconds.")
-        
-        print("Time Taken for Run *" + str(run_number) + " is " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + "* seconds.")
+            transition_time = get_time_taken_in_seconds(end_times[i - 1], start_times[i])
+            print("Time Taken for Transition after last run was *" + str(transition_time) + "* seconds.")
+            total_time_taken += transition_time
+
+        run_time = get_time_taken_in_seconds(start_times[i], end_times[i])
+        print("Time Taken for Run *" + str(run_number) + " is " + str(run_time) + "* seconds.")
+        total_time_taken += run_time
+
+    print("---------------------------------------------------------------------------")
+    print("TOTAL TIME TAKEN = " + str(total_time_taken) + " seconds")
         
 # END MAIN FUNCTION
 #----------------------------------------
