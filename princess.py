@@ -780,10 +780,9 @@ async def execute(run_numbers=None):
         end_times[i] = time.ticks_ms()
         light.color(light.POWER, color.YELLOW)
 
-        print("Completed Run: " + str(run_number))
         if i > 0:
-            print("Time Taken for Transition after last run was *" + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " seconds.*")
-        print("Time Taken for Run " + str(run_number) + " is *" + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " seconds.*")
+            print("Transition time: " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " s")
+        print("Run " + str(run_number) + " time " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " s")
         print("---------------------------------------------------------------------------")
 
     # Print execution times
@@ -793,15 +792,16 @@ async def execute(run_numbers=None):
     for i, run_number in enumerate(runs_to_execute):
         if i > 0:
             transition_time = get_time_taken_in_seconds(end_times[i - 1], start_times[i])
-            print("Time Taken for Transition after last run was *" + str(transition_time) + "* seconds.")
+            print("Transition time: " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " s")
             total_time_taken += transition_time
 
         run_time = get_time_taken_in_seconds(start_times[i], end_times[i])
-        print("Time Taken for Run *" + str(run_number) + " is " + str(run_time) + "* seconds.")
+        print("Run " + str(run_number) + " time " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " s")
         total_time_taken += run_time
 
     print("---------------------------------------------------------------------------")
-    print("TOTAL TIME TAKEN = " + str(total_time_taken) + " seconds")
+    print("---------------------------------------------------------------------------")
+    print("TOTAL TIME TAKEN = " + str(total_time_taken) + " s")
         
 # END MAIN FUNCTION
 #----------------------------------------
