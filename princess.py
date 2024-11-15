@@ -338,7 +338,7 @@ async def run2():
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=88, stop=True)
 
     # go straight to push coral tree buds
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(14), 0, velocity=150)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(15.5), 0, velocity=150)
 
     # reset yaw to 0
     motion_sensor.set_yaw_face(motion_sensor.TOP)
@@ -353,7 +353,7 @@ async def run2():
     motor.run_for_degrees(port.B, 700, 1000)
 
     # raise shark hook
-    motor.run_for_degrees(port.C, -170, 700)
+    motor.run_for_degrees(port.C, -170, 400)
 
     # come back from Coral tree to get in alignment with Coral buds
     motor.reset_relative_position(port.A, 0)
@@ -374,7 +374,7 @@ async def run2():
     await motor.run_for_degrees(port.C, 170, 850)
 
     # raise shark hook
-    await motor.run_for_degrees(port.C, -170, 850)
+    await motor.run_for_degrees(port.C, -170, 400)
 
     # come back to get in alignment with scuba diver
     motor.reset_relative_position(port.A, 0)
@@ -383,12 +383,12 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(13)))
 
     # turn right to get in alignment with scuba diver 
-    await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=99, stop=True)
+    await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=104, stop=True)
 
     # come back to get in take fork out
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=99, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=104, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(2)))
 
     # put fork down to drop off Scuba Diver
@@ -397,7 +397,7 @@ async def run2():
     # go forward towards scuba diver drop off
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=99, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=104, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(8)))
 
     # move fork down to fully release Scuba Diver
@@ -406,7 +406,7 @@ async def run2():
     # come back from to get away from coral nursery
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=99, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=104, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(10)))
 
     # raise fork arm to ensurre it isn't out of base
@@ -417,35 +417,6 @@ async def run2():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-950, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(60)))
-# END RUN 2
-#----------------------------------------
-
-
-# RUN 3
-#----------------------------------------
-
-async def run3():
-
-    # go forward very slow to drop off coral pieces, get out of base, and get to research vessel
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=125, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(18)))
-
-    # put ramp down to drop research vessel pieces
-    await motor.run_for_degrees(port.C, 1200, 1500)
-
-    # sleep to let pieces fall into boat
-    await runloop.sleep_ms(500)
-
-    # bring ramp up so it doesn't get in the way of coral pieces
-    await motor.run_for_degrees(port.C, 500, -1000)
-
-    # come back to base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
 
 # END RUN 3
 #----------------------------------------
