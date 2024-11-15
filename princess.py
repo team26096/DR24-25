@@ -418,9 +418,37 @@ async def run2():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-950, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(60)))
 
-# END RUN 3
+# END RUN 2
 #----------------------------------------
 
+
+# RUN 3
+#----------------------------------------3
+async def run3():
+
+    # go forward very slow to drop off coral pieces, get out of base, and get to research vessel
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=125, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(18)))
+
+    # put ramp down to drop research vessel pieces
+    await motor.run_for_degrees(port.C, 1200, 1500)
+
+    # sleep to let pieces fall into boat
+    await runloop.sleep_ms(500)
+
+    # bring ramp up so it doesn't get in the way of coral pieces
+    await motor.run_for_degrees(port.C, 500, -1000)
+
+    # come back to base
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degreesForDistance(20)))
+
+# END RUN 3
+#----------------------------------------
 
 # RUN 4
 #----------------------------------------
