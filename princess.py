@@ -361,7 +361,7 @@ async def run2():
     await motor.run_for_degrees(port.B, 1100, 300)
 
     # raise shark hook
-    motor.run_for_degrees(port.C, -120, 650)
+    motor.run_for_degrees(port.C, -120, 700)
 
     # come back from Coral tree to get in alignment with Coral buds
     motor.reset_relative_position(port.A, 0)
@@ -379,10 +379,10 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(9)))
 
     # lower Shark Hook to push the coral buds mission
-    await motor.run_for_degrees(port.C, 120, 600)
+    await motor.run_for_degrees(port.C, 120, 850)
 
     # raise shark hook
-    await motor.run_for_degrees(port.C, -100, 700)
+    await motor.run_for_degrees(port.C, -100, 725)
 
     # come back to get in alignment with coral buds
     motor.reset_relative_position(port.A, 0)
