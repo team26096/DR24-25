@@ -17,7 +17,7 @@ WHEEL_CIRCUMFERENCE = 17.584
 #----------------------------------------
 
 
-# COMMON FUNCTIONS
+# UTILITY FUNCTIONS
 #----------------------------------------
 
 # initialize motor and reset yaw
