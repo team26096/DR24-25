@@ -196,7 +196,7 @@ async def run1():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(87)))
 
-    # turn to align to seabed sample
+    # turn to place pieces
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-95, stop=True)
 
     # go forward (back) to leave pieces
@@ -205,6 +205,9 @@ async def run1():
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-95, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
+    # bring send over the submersible attachment down 
+    await motor.run_for_degrees(port.B, 800, 900)
+
     # turn to align to seabed sample
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
 
@@ -212,8 +215,10 @@ async def run1():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17),0,velocity=-400)
 
     # raise seabed sample hook to raise the sample and collect it
-    await motor.run_for_degrees(port.B, 1200, 900)
-    motor.run_for_degrees(port.B, 800, 900)
+    # raise send over the submersible attachment 
+    await motor.run_for_degrees(port.B, 1500, -900)
+    await motor.run_for_degrees(port.C, 1200, 900)
+    motor.run_for_degrees(port.C, 800, 900)
 
     # come back (go forward) to leave seabed
     motor.reset_relative_position(port.A, 0)
@@ -253,7 +258,6 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=-125, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
-
 
 # END RUN 1
 #----------------------------------------
