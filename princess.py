@@ -13,12 +13,6 @@ from hub import light_matrix, button, motion_sensor, light, sound, port
 
 WHEEL_CIRCUMFERENCE = 17.584
 
-WHITE_COLOR_INTENSITY_MIN = 97
-BLACK_COLOR_INTENSITY_MAX = 18
-
-COLOR_SENSOR_CENTER_PORT = port.C
-COLOR_SENSOR_LEFT_PORT = port.D
-
 # END CONSTANTS
 #----------------------------------------
 
@@ -59,26 +53,6 @@ def follow_for_distance(initial_position=0,
         return False
     else:
         return True
-
-
-def get_color_values():
-    return color_sensor.reflection(COLOR_SENSOR_CENTER_PORT), color_sensor.reflection(COLOR_SENSOR_LEFT_PORT)
-
-
-def follow_for_color_white_center():
-    return get_color_values()[0] <= WHITE_COLOR_INTENSITY_MIN
-
-
-def follow_for_color_black_center():
-    return get_color_values()[0] >= BLACK_COLOR_INTENSITY_MAX
-
-
-def follow_for_color_white_left():
-    return get_color_values()[1] <= WHITE_COLOR_INTENSITY_MIN
-
-
-def follow_for_color_black_left():
-    return get_color_values()[1] >= BLACK_COLOR_INTENSITY_MAX
 
 
 def get_yaw_value():
@@ -135,7 +109,6 @@ async def follow_gyro_angle(kp,
 
 async def pivot_gyro_turn_abs(left_speed=0, right_speed=50, angle=90, stop=False):
     motor_pair.move_tank(motor_pair.PAIR_1, left_speed, right_speed)
-    # print("pivot_gyro_turn - " + "target angle=" + str(angle) + "current angle ="+ str(get_yaw_value()))
     wait_for_yaw_abs(angle=angle)
     if stop: motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
@@ -151,10 +124,8 @@ async def turn_right(speed=-50, angle=90, stop=True):
 def get_time_taken_in_seconds(start_time, end_time):
     return int(time.ticks_diff(end_time, start_time)/1000)
 
-# END COMMON FUNCTIONS
+# END UTILITY FUNCTIONS
 #----------------------------------------
-
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # RUN FUNCTIONS
 #----------------------------------------
@@ -720,7 +691,7 @@ async def run6():
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# MAIN FUNCTIONS
+# MAIN EXECUTE FUNCTION
 #----------------------------------------
 
 async def execute(run_numbers=None):
@@ -780,43 +751,50 @@ async def execute(run_numbers=None):
     # Print execution times
     print("---------------------------------------------------------------------------")
     print("SUMMARY:")
-    total_time_taken = 0
+    total_runs_time = 0
+    total_transitions_time = 0
+    total_time = 0
+
     for i, run_number in enumerate(runs_to_execute):
         if i > 0:
             transition_time = get_time_taken_in_seconds(end_times[i - 1], start_times[i])
-            print("Transition time: " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " s")
-            total_time_taken += transition_time
+            print("Transition time: " + str(transition_time) + " s")
+            total_transitions_time += transition_time
+            total_time += transition_time
 
         run_time = get_time_taken_in_seconds(start_times[i], end_times[i])
-        print("Run " + str(run_number) + " time " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " s")
-        total_time_taken += run_time
+        print("Run " + str(run_number) + " time " + str(run_time) + " s")
+        total_runs_time += run_time
+        total_time += run_time
 
-    print("---------------------------------------------------------------------------")
-    print("---------------------------------------------------------------------------")
-    print("TOTAL TIME TAKEN = " + str(total_time_taken) + " s")
+    print("***************************************************************************")
 
-# END MAIN FUNCTION
+    print("TOTAL RUN TIME = " + str(total_runs_time) + " s")
+    print("TOTAL TRANSITIONS TIME = " + str(total_transitions_time) + " s")
+    print("TOTAL TIME = " + str(total_transitions_time) + " s")
+    
+    print("***************************************************************************")
+
+
+# END MAIN EXECUTE FUNCTION
 #----------------------------------------
 
 # Integrated Runs
 
-# SLOT 0 - Indiviual Run
-# runloop.run(execute([1]))
-
-# SLOT 1 - All Runs
+# SLOT 0 - All Runs
 runloop.run(execute([1, 2, 3, 4, 5, 6]))
 
-# SLOT 2 - Run 2 Onwards
+# SLOT 1 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5, 6]))
 
-# SLOT 3 - Run 3 Onwards
+# SLOT 2 - Run 3 Onwards
 # runloop.run(execute([3, 4, 5, 6]))
 
-# SLOT 4 - Run 4 Onwards
+# SLOT 3 - Run 4 Onwards
 # runloop.run(execute([4, 5, 6]))
 
-# SLOT 5 - Run 5 Onwards
+# SLOT 4 - Run 5 Onwards
 # runloop.run(execute([5, 6]))
 
-# SLOT 5 - Run 6 Onwards
+# SLOT 5 - Run 6
 # runloop.run(execute([6]))
