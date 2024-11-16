@@ -4,8 +4,8 @@ import hub
 import sys
 import time
 
-import color, color_sensor, device, motor, motor_pair, orientation, runloop
-from hub import light_matrix, button, motion_sensor, light, sound, port
+import color, motor, motor_pair, runloop
+from hub import light_matrix, button, motion_sensor, light, port
 
 
 # CONSTANTS
@@ -312,9 +312,7 @@ async def run2():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(15.5), 0, velocity=150)
 
     # reset yaw to 0
-    motion_sensor.set_yaw_face(motion_sensor.TOP)
-    motion_sensor.reset_yaw(0)
-    await runloop.sleep_ms(500)
+    do_init()
 
     # lower Shark Hook to push the shark misson lever
     motor.run_for_degrees(port.C, 200, 700)
@@ -535,16 +533,13 @@ async def run5():
     # turn motor to move food tray down
     await motor.run_for_degrees(port.B, 1100, -1000)
 
-    # reset yaw to 0 and sleep to ensure the krill are in the whale
+    # reset yaw to 0 and ensure the krill are in the whale
     motor.reset_relative_position(port.A, 0)
-    motion_sensor.set_yaw_face(motion_sensor.TOP)
-    motion_sensor.reset_yaw(0)
-    await runloop.sleep_ms(500)
+    do_init()
 
     # move motor to lift food tray so it does not make whale vomit while coming back
     await motor.run_for_degrees(port.B, 300, 1000)
     motor.run_for_degrees(port.B, 700, 1000)
-
 
     # move robot forward to move away from feed the whale
     initial_position = abs(motor.relative_position(port.A))
