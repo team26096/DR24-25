@@ -28,7 +28,7 @@ def do_init():
     i = 0
     while (hub.motion_sensor.stable() == False):
         i = i + 1
-        # Use time.sleep_ms instead of runloop.sleep_ms
+        # Use time.sleep_ms instead of time.sleep_ms
         # to ensure it is synchronized
         time.sleep_ms(10)
         hub.light_matrix.write(str(i))
@@ -71,13 +71,13 @@ def wait_for_yaw_abs(angle=0):
     abs_current_yaw = abs(get_yaw_value())
     if angle == 0:
         if get_yaw_value() > 0:
-            while get_yaw_value() >= angle: runloop.sleep_ms(10)
+            while get_yaw_value() >= angle: time.sleep_ms(10)
         elif get_yaw_value() < 0:
-            while get_yaw_value() <= angle: runloop.sleep_ms(10)
+            while get_yaw_value() <= angle: time.sleep_ms(10)
     elif abs_current_yaw > abs_angle:
-        while abs(get_yaw_value()) >= abs_angle: runloop.sleep_ms(10)
+        while abs(get_yaw_value()) >= abs_angle: time.sleep_ms(10)
     elif abs_current_yaw < abs_angle:
-        while abs(get_yaw_value()) <= abs_angle: runloop.sleep_ms(10)
+        while abs(get_yaw_value()) <= abs_angle: time.sleep_ms(10)
 
 
 async def follow_gyro_angle(kp,
@@ -101,7 +101,7 @@ async def follow_gyro_angle(kp,
         steering_value = (error * kp) + (integral * ki) + (derivative * kd)
 
         if sleep_time:
-            runloop.sleep_ms(sleep_time)
+            time.sleep_ms(sleep_time)
         # kp value should be +ve for forward movement (positive speed value), and -ve for backward movement (negative speed value)
         motor_pair.move(motor_pair.PAIR_1, int(steering_value), velocity=speed)
 
@@ -408,7 +408,7 @@ async def run3():
     await motor.run_for_degrees(port.C, 1200, 1500)
 
     # sleep to let pieces fall into boat
-    await runloop.sleep_ms(500)
+    time.sleep_ms(500)
 
     # bring ramp up so it doesn't get in the way of coral pieces
     await motor.run_for_degrees(port.C, 500, -1000)
@@ -679,7 +679,7 @@ async def run6():
     await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
 
     # sleep to hold submersible yellow beam up
-    await runloop.sleep_ms(2000)
+    time.sleep_ms(2000)
 
     # turn right to align with dropping octupus
     await pivot_gyro_turn_abs(300, -300, 160, True)
