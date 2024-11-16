@@ -226,19 +226,19 @@ async def run1():
             initial_position=initial_position, distance_to_cover=(degreesForDistance(87)))
 
     # turn to align to seabed sample
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-100, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-95, stop=True)
 
     # go forward (back) to leave pieces
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-100, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-95, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degreesForDistance(18)))
 
     # turn to align to seabed sample
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
 
     # go forward to engage with seabed sample
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(15),0,velocity=-300)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(17),0,velocity=-400)
 
     # raise seabed sample hook to raise the sample and collect it
     await motor.run_for_degrees(port.B, 1200, 900)
@@ -260,12 +260,12 @@ async def run1():
     initial_position=initial_position, distance_to_cover=(degreesForDistance(17)))
 
     # turn left to align with water sample/krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-110, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-108, stop=True)
 
     # go forward to collect water sample and krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-110, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-108, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degreesForDistance(27)))
 
     # turn left collect last coral piece
@@ -382,7 +382,7 @@ async def run2():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=65, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degreesForDistance(13)))
 
-    # turn right to get in alignment with scuba diver 
+    # turn right to get in alignment with scuba diver
     await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=104, stop=True)
 
     # come back to get in take fork out
@@ -395,10 +395,7 @@ async def run2():
     await motor.run_for_degrees(port.B, -840, 400)
 
     # go forward towards scuba diver drop off
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=104, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degreesForDistance(8)))
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degreesForDistance(8), 0, velocity=100)
 
     # move fork down to fully release Scuba Diver
     await motor.run_for_degrees(port.B, -250, 400)
@@ -700,14 +697,14 @@ async def run6():
     # bring scooper down to get ready to slightly lift misiion up
     motor.run_for_degrees(port.B, 20, 300)
 
-    # go forward towards Submersible
+    # go forward towards submersible
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=86, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degreesForDistance(10))
 
-    # bring scoopr up to hold mission's yellow beam
-    await motor.run_for_degrees(port.B, -10, 200, stop=motor.HOLD)
+    # bring scooper up to hold mission's yellow beam
+    await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
 
     # sleep to hold submersible yellow beam up
     await runloop.sleep_ms(2000)
@@ -727,7 +724,7 @@ async def run6():
 #----------------------------------------
 
 async def execute(run_numbers=None):
-    
+
     runs_to_execute = list()
 
     if isinstance(run_numbers, int):
@@ -797,17 +794,17 @@ async def execute(run_numbers=None):
     print("---------------------------------------------------------------------------")
     print("---------------------------------------------------------------------------")
     print("TOTAL TIME TAKEN = " + str(total_time_taken) + " s")
-        
+
 # END MAIN FUNCTION
 #----------------------------------------
 
 # Integrated Runs
 
 # SLOT 0 - Indiviual Run
-runloop.run(execute([1]))
+# runloop.run(execute([1]))
 
 # SLOT 1 - All Runs
-# runloop.run(execute([1, 2, 3, 4, 5, 6]))
+runloop.run(execute([1, 2, 3, 4, 5, 6]))
 
 # SLOT 2 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5, 6]))
@@ -823,4 +820,3 @@ runloop.run(execute([1]))
 
 # SLOT 5 - Run 6 Onwards
 # runloop.run(execute([6]))
-
