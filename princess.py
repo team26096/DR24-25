@@ -28,7 +28,9 @@ def do_init():
     i = 0
     while (hub.motion_sensor.stable() == False):
         i = i + 1
-        await runloop.sleep_ms(10)
+        # Use time.sleep_ms instead of runloop.sleep_ms
+        # to ensure it is synchronized
+        time.sleep_ms(10)
         hub.light_matrix.write(str(i))
         if i >= 100:
             break
