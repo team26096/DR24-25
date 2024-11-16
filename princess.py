@@ -724,9 +724,6 @@ async def execute(run_numbers=None):
     light_matrix.write("0")
     light.color(light.POWER, color.RED)
 
-    # Reset Yaw
-    await do_init()
-
     for i, run_number in enumerate(runs_to_execute):
 
         # waiting for left button to be pressed to start the run
