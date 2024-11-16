@@ -21,7 +21,7 @@ WHEEL_CIRCUMFERENCE = 17.584
 #----------------------------------------
 
 # initialize motor and reset yaw
-async def do_init():
+def do_init():
     # reset yaw to 0
     motion_sensor.set_yaw_face(motion_sensor.TOP)
     motion_sensor.reset_yaw(0)
@@ -729,7 +729,7 @@ async def execute(run_numbers=None):
         light_matrix.show_image(light_matrix.IMAGE_BUTTERFLY)
 
         start_times[i] = time.ticks_ms()
-        await do_init()
+        do_init()
 
         runloop.run(run_functions_map[run_number]())
         end_times[i] = time.ticks_ms()
