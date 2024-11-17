@@ -199,7 +199,7 @@ async def run1():
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(100)))
 
     # bring send over the submersible attachment down
-    motor.run_for_degrees(port.B, 2400, 900)
+    motor.run_for_degrees(port.B, 2500, 900)
 
     # turn to place pieces
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-90, stop=True)
@@ -607,7 +607,7 @@ async def run6():
     await pivot_gyro_turn_abs(-400, 400, -15, True)
     await pivot_gyro_turn_abs(800, -800, 50, True)
 
-    # turn left to get back in alignment with Artificil Habitat
+    # turn left to get back in alignment with Artifical Habitat
     await pivot_gyro_turn_abs(-200, 200, -0, True)
 
     # move forward to get closer to the mission so mission is set up correctly
@@ -678,11 +678,8 @@ async def run6():
     # bring scooper up to hold mission's yellow beam
     await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
 
-    # sleep to hold submersible yellow beam up
-    time.sleep_ms(2000)
-
     # turn right to align with dropping octupus
-    await pivot_gyro_turn_abs(300, -300, 160, True)
+    await pivot_gyro_turn_abs(300, -300, 170, True)
 
 # END RUN 6
 #----------------------------------------
@@ -770,7 +767,7 @@ async def execute(run_numbers=None):
     print("TOTAL RUN TIME = " + str(total_runs_time) + " s")
     print("TOTAL TRANSITIONS TIME = " + str(total_transitions_time) + " s")
     print("TOTAL TIME = " + str(total_transitions_time) + " s")
-    
+
     print("***************************************************************************")
 
 
