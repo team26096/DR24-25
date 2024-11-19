@@ -238,13 +238,13 @@ async def run1():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
 
     # turn left to align with water sample/krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-108, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-106, stop=True)
 
     # go forward to collect water sample and krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-108, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-106, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(28)))
 
     # turn left collect last coral piece
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-155, stop=True)
@@ -385,10 +385,10 @@ async def run3():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
     # put ramp down to drop research vessel pieces
-    await motor.run_for_degrees(port.C, 1200, 1100)
+    await motor.run_for_degrees(port.C, 1600, 1100)
 
-    # sleep to let pieces fall into boat
-    time.sleep_ms(500)
+    # # sleep to let pieces fall into boat
+    # time.sleep_ms(500)
 
     # come back to base
     motor.reset_relative_position(port.A, 0)
@@ -429,11 +429,11 @@ async def run4():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(20.5)))
 
+    # move rack more to catch krill
+    motor.run_for_degrees(port.B, 750, -700)
+
     # bring arm down to engage with research vessel
     await motor.run_for_degrees(port.C, 2025, 1000)
-
-    # move rack more to catch krill
-    await motor.run_for_degrees(port.B, 750, -700)
 
     # go a little forward to catch the krill
     motor.reset_relative_position(port.A, 0)
@@ -627,37 +627,37 @@ async def run6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(16))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(12))
 
     # turn right to go towards Angler Fish
-    await pivot_gyro_turn_abs(200, -200, 46, True)
+    await pivot_gyro_turn_abs(200, -200, 60, True)
 
     # move robot forward to keep going towards Angler Fish
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=48, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(54))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(46))
 
-    # turn left to flick the handle of the Angler fish
-    await pivot_gyro_turn_abs(-200, 200, 35 , True)
+    # # turn left to flick the handle of the Angler fish
+    # await pivot_gyro_turn_abs(-200, 200, 35 , True)
 
-    # turn right to go towards Submersible
-    await pivot_gyro_turn_abs(200, -200, 86, True)
+    # # turn right to go towards Submersible
+    # await pivot_gyro_turn_abs(200, -200, 86, True)
 
-    # bring scooper down to get ready to slightly lift misiion up
-    motor.run_for_degrees(port.B, 20, 300)
+    # # bring scooper down to get ready to slightly lift misiion up
+    # motor.run_for_degrees(port.B, 20, 300)
 
-    # go forward towards submersible
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=86, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
+    # # go forward towards submersible
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=86, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
 
-    # bring scooper up to hold mission's yellow beam
-    await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
+    # # bring scooper up to hold mission's yellow beam
+    # await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
 
-    # turn right to align with dropping octupus
-    await pivot_gyro_turn_abs(300, -300, 170, True)
+    # # turn right to align with dropping octupus
+    # await pivot_gyro_turn_abs(300, -300, 170, True)
 
 # END RUN 6
 #----------------------------------------
