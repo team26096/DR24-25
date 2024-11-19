@@ -373,37 +373,13 @@ async def run2():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(56.5)))
 
+# END RUN 2
+#----------------------------------------
 
 # RUN 3
-#----------------------------------------3
+#----------------------------------------
+# run 3 program
 async def run3():
-
-    # go forward very slow to drop off coral pieces, get out of base, and get to research vessel
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=125, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
-
-    # put ramp down to drop research vessel pieces
-    await motor.run_for_degrees(port.C, 1600, 1100)
-
-    # # sleep to let pieces fall into boat
-    # time.sleep_ms(500)
-
-    # come back to base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
-
-
-# END RUN 3
-#----------------------------------------
-
-# RUN 4
-#----------------------------------------
-# run 4 program
-async def run4():
 
     # go straight to get out of base and in position to drop shark
     motor.reset_relative_position(port.A, 0)
@@ -480,13 +456,13 @@ async def run4():
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(37)))
 
-# END RUN 4
+# END RUN 3
 #----------------------------------------
 
-# RUN 5
+# RUN 4
 #----------------------------------------
-# run 5 program
-async def run5():
+# run 4 program
+async def run4():
 
     # # go backward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
@@ -563,15 +539,14 @@ async def run5():
     # turn left to align with feed the whale
     await pivot_gyro_turn_abs(-150, 150, 80, True)
 
-# END RUN 5
+# END RUN 4
 #----------------------------------------
 
 
-
-# RUN 6
+# RUN 5
 #----------------------------------------
-# run 6 program
-async def run6():
+# run 5 program
+async def run5():
     # move forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -627,7 +602,7 @@ async def run6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(12))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
 
     # turn right to go towards Angler Fish
     await pivot_gyro_turn_abs(200, -200, 60, True)
@@ -638,28 +613,8 @@ async def run6():
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(46))
 
-    # # turn left to flick the handle of the Angler fish
-    # await pivot_gyro_turn_abs(-200, 200, 35 , True)
 
-    # # turn right to go towards Submersible
-    # await pivot_gyro_turn_abs(200, -200, 86, True)
-
-    # # bring scooper down to get ready to slightly lift misiion up
-    # motor.run_for_degrees(port.B, 20, 300)
-
-    # # go forward towards submersible
-    # motor.reset_relative_position(port.A, 0)
-    # initial_position = abs(motor.relative_position(port.A))
-    # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=86, sleep_time=0, follow_for=follow_for_distance,
-    #     initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
-
-    # # bring scooper up to hold mission's yellow beam
-    # await motor.run_for_degrees(port.B, -100, 200, stop=motor.HOLD)
-
-    # # turn right to align with dropping octupus
-    # await pivot_gyro_turn_abs(300, -300, 170, True)
-
-# END RUN 6
+# END RUN 5
 #----------------------------------------
 
 # END RUN FUNCTIONS
@@ -678,7 +633,7 @@ async def execute(run_numbers=None):
         run_numbers = [run_numbers]
 
     # If run_numbers are not provided execute all runs
-    runs_to_execute = run_numbers if run_numbers else [1, 2, 3, 4, 5, 6] # Skipping run 2
+    runs_to_execute = run_numbers if run_numbers else [1, 2, 3, 4, 5]
 
     start_times = [time.ticks_ms() for _ in runs_to_execute]
     end_times = [time.ticks_ms() for _ in runs_to_execute]
@@ -688,8 +643,7 @@ async def execute(run_numbers=None):
                             2: run2,
                             3: run3,
                             4: run4,
-                            5: run5,
-                            6: run6
+                            5: run5
                         }
     print("Start - Execute")
 
@@ -755,19 +709,16 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs
-runloop.run(execute([1, 2, 3, 4, 5, 6]))
+runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-# runloop.run(execute([2, 3, 4, 5, 6]))
+# runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-# runloop.run(execute([3, 4, 5, 6]))
+# runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-# runloop.run(execute([4, 5, 6]))
+# runloop.run(execute([4, 5]))
 
-# SLOT 4 - Run 5 Onwards
-# runloop.run(execute([5, 6]))
-
-# SLOT 5 - Run 6
-# runloop.run(execute([6]))
+# SLOT 4 - Run 5
+# runloop.run(execute([5]))
