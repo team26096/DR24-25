@@ -291,7 +291,7 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-150, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27.5)))
 
     # come back to collect treasure and release mast
     motor.reset_relative_position(port.A, 0)
@@ -353,10 +353,10 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.B, -720, 600) # was 820 degrees
+    await motor.run_for_degrees(port.B, -790, 500)
 
     # go forward towards scuba diver drop off
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(9.5), 0, velocity=100)
 
     # move fork down to fully release Scuba Diver
     await motor.run_for_degrees(port.B, -250, 500)
