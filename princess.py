@@ -301,7 +301,7 @@ async def run2():
 
 
     # lower fork arm to get in position to pick up diver
-    motor.run_for_degrees(port.B, -2075, 800)
+    motor.run_for_degrees(port.B, -2100, 1000)
 
     # turn left to prepare for alignment with coral tree
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=30, stop=True)
@@ -331,8 +331,8 @@ async def run2():
     motor.run_for_degrees(port.C, -100, 600)
 
     # raise fork arm to pick up diver
-    await motor.run_for_degrees(port.B, 400, 350)
-    motor.run_for_degrees(port.B, 700, 1000)
+    await motor.run_for_degrees(port.B, 800, 1000)
+    motor.run_for_degrees(port.B, 300, 1000)
 
     # come back from Coral tree to get in alignment with Scuba Diver
     motor.reset_relative_position(port.A, 0)
@@ -353,16 +353,16 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.B, -820, 400)
+    await motor.run_for_degrees(port.B, -720, 600) # was 820 degrees
 
     # go forward towards scuba diver drop off
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=100)
 
     # move fork down to fully release Scuba Diver
-    await motor.run_for_degrees(port.B, -250, 400)
+    await motor.run_for_degrees(port.B, -250, 500)
 
     # come back a bit to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12), 0, velocity=-100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(8), 0, velocity=-100)
 
     # raise fork arm to ensurre it isn't out of base
     motor.run_for_degrees(port.B, 2000, 1000)
@@ -371,7 +371,7 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=130, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(56.5)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(60.5)))
 
 # END RUN 2
 #----------------------------------------
@@ -433,7 +433,8 @@ async def run3():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
 
     # raise arm so it doesn't get in the way
-    await motor.run_for_degrees(port.C, -2000, 1500)
+    await motor.run_for_degrees(port.C, -1000, 1000)
+    motor.run_for_degrees(port.C, -1000, 1000)
 
     # go forward to leave ship and get in alignment with unexpected encounter
     motor.reset_relative_position(port.A, 0)
@@ -447,7 +448,7 @@ async def run3():
     # go forward (back) to push unexpected encounter lever and catch creature
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
 
     # go back (forward) to base
@@ -528,12 +529,12 @@ async def run4():
         initial_position=initial_position, distance_to_cover=degrees_for_distance(5))
 
     # turn robot right to align for coming to base
-    await pivot_gyro_turn_abs(300, -300, 115, stop=True)
+    await pivot_gyro_turn_abs(300, -300, 117, stop=True)
 
     # move backward to come back to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=115, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=117, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(70))
 
     # turn left to align with feed the whale
@@ -708,7 +709,7 @@ async def execute(run_numbers=None):
 
 # Integrated Runs
 
-# SLOT 0 - All Runs
+# SLOT 0 - All Runs#
 runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
