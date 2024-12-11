@@ -291,15 +291,16 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-150, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27.5)))
-
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23.5)))
+    # Added return only to test raise the mast
+    return
     # come back to collect treasure and release mast
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
 
-
+    
     # lower fork arm to get in position to pick up diver
     motor.run_for_degrees(port.B, -2100, 1000)
 
@@ -710,7 +711,8 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs#
-runloop.run(execute([1, 2, 3, 4, 5]))
+runloop.run(execute([2]))
+# runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5]))
