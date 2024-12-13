@@ -180,9 +180,6 @@ async def run1():
     # go backward to pull plankton
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(2),0,velocity=-300)
 
-    # # turn left to get away from sonar
-    # await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-95, stop=True)
-
     # go forward to get away from sonar discovery
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -238,12 +235,12 @@ async def run1():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
 
     # turn left to align with water sample/krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-106, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-102, stop=True)
 
     # go forward to collect water sample and krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-106, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-102, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(28)))
 
     # turn left collect last coral piece
@@ -430,7 +427,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-300, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
 
     # raise arm so it doesn't get in the way
     await motor.run_for_degrees(port.C, -1000, 1000)
@@ -440,7 +437,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(31)))
 
     # turn to align with unexpected encounter
     await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=45, stop=True)
@@ -492,14 +489,14 @@ async def run4():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(18), 0, velocity=-300)
 
     # turn motor to move food tray down
-    await motor.run_for_degrees(port.B, 1100, -1000)
+    await motor.run_for_degrees(port.B, 1150, -1000)
 
     # reset yaw to 0 and ensure the krill are in the whale
     motor.reset_relative_position(port.A, 0)
     do_init()
 
     # move motor to lift food tray so it does not make whale vomit while coming back
-    await motor.run_for_degrees(port.B, 300, 1000)
+    await motor.run_for_degrees(port.B, 350, 1000)
     motor.run_for_degrees(port.B, 700, 1000)
 
     # move robot forward to move away from feed the whale
@@ -552,7 +549,7 @@ async def run5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(37))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(36))
     motor.reset_relative_position(port.A, 0)
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(5.5))
@@ -652,6 +649,7 @@ async def execute(run_numbers=None):
     # Define motor pai for robot movements
     motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
 
+    do_init()
     light_matrix.write("0")
     light.color(light.POWER, color.RED)
 
@@ -713,13 +711,13 @@ async def execute(run_numbers=None):
 runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-# runloop.run(execute([2, 3, 4, 5]))
+#runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-# runloop.run(execute([3, 4, 5]))
+#runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-# runloop.run(execute([4, 5]))
+#runloop.run(execute([4, 5]))
 
 # SLOT 4 - Run 5
-# runloop.run(execute([5]))
+#runloop.run(execute([5]))
