@@ -216,7 +216,7 @@ async def run1():
     # raise seabed sample hook to raise the sample and collect it
     # raise send over the submersible attachment
     motor.run_for_degrees(port.C, 1200, 900)
-    await motor.run_for_degrees(port.B, 1000, -900)
+    await motor.run_for_degrees(port.B, 2000, -1000)
     motor.run_for_degrees(port.C, 800, 900)
 
     # come back (go forward) to leave seabed
@@ -224,6 +224,9 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+
+    # bring down send over the submersible attachment for coral reef buds mission
+    motor.run_for_degrees(port.B, 1300, 1000)
 
     # turn to leave seabed sample
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-95, stop=True)
@@ -241,7 +244,19 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-102, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(28)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+
+    # bring down send over the submersible attachment for coral reef buds mission
+    await motor.run_for_degrees(port.B, 1500, 1000)
+
+    # go forward to collect water sample and krill
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-102, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+
+    # bring up send over the submersible attachment
+    motor.run_for_degrees(port.B, 1500, -1000)
 
     # turn left collect last coral piece
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-155, stop=True)
