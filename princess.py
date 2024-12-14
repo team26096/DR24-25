@@ -303,15 +303,13 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-150, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23.5)))
-    # Added return only to test raise the mast
-    return
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+
     # come back to collect treasure and release mast
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
-
     
     # lower fork arm to get in position to pick up diver
     motor.run_for_degrees(port.B, -2100, 1000)
@@ -388,7 +386,6 @@ async def run2():
 
 # END RUN 2
 #----------------------------------------
-
 # RUN 3
 #----------------------------------------
 # run 3 program
