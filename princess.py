@@ -136,7 +136,6 @@ def get_time_taken_in_seconds(start_time, end_time):
 #----------------------------------------
 # run 1 program
 async def run1():
-
     # go backward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -205,7 +204,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
     # turn to align to seabed sample
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
@@ -216,7 +215,7 @@ async def run1():
     # raise seabed sample hook to raise the sample and collect it
     # raise send over the submersible attachment
     motor.run_for_degrees(port.C, 1200, 900)
-    await motor.run_for_degrees(port.B, 2000, -1000)
+    await motor.run_for_degrees(port.B, 1800, -1000)
     motor.run_for_degrees(port.C, 800, 900)
 
     # come back (go forward) to leave seabed
@@ -255,13 +254,13 @@ async def run1():
     # go forward to collect last coral piece
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=-155, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=-155, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
 
     # go forward to get into base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=-125, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=-125, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
 
 # END RUN 1
