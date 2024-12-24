@@ -565,27 +565,35 @@ async def run4():
 #----------------------------------------
 # run 5 program
 async def run5():
-    # move forward to get out of base
+    
+        # move forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-3, ki=0, kd=0, speed=1000, target_angle=-1, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(36))
+    
     motor.reset_relative_position(port.A, 0)
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(5.5))
+    await follow_gyro_angle(kp=-3, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(4))
 
     # turn right to flick mission into new position
-    await pivot_gyro_turn_abs(-400, 400, -15, True)
-    await pivot_gyro_turn_abs(800, -800, 50, True)
+    await pivot_gyro_turn_abs(-200, 200, -15, True)
+    await pivot_gyro_turn_abs(400, -400, 40, True)
 
-    # turn left to get back in alignment with Artifical Habitat
-    await pivot_gyro_turn_abs(-200, 200, -0, True)
+    # turn left to get back in alignment with Artificial Habitat
+    await pivot_gyro_turn_abs(-200, 200, 0, True)
 
     # move forward to get closer to the mission so mission is set up correctly
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(17))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(20))
+
+    # drop the samples box and release pieces
+    await motor.run_for_degrees(port.B, 1000, 600)
+
+    # lift the samples box to avoid getting stuck in boat
+    await motor.run_for_degrees(port.B, -500, 1100)
 
     # move robot back to complete alignment with Artificial Habitat
     motor.reset_relative_position(port.A, 0)
@@ -594,7 +602,7 @@ async def run5():
         initial_position=initial_position, distance_to_cover=degrees_for_distance(16))
 
     # bring scooper down to get ready to slightly lift mission up
-    motor.run_for_degrees(port.B, 100, 150)
+    motor.run_for_degrees(port.C, -100, 150)
 
     # move robot forward to get scooper under artificial habitat
     motor.reset_relative_position(port.A, 0)
@@ -603,23 +611,21 @@ async def run5():
         initial_position=initial_position, distance_to_cover=degrees_for_distance(8))
 
     # bring scooper up to get ready to complete mission
-    await motor.run_for_degrees(port.B, -150, 1000)
+    await motor.run_for_degrees(port.C, 150, 1000)
 
     # bring scooper down to push last crab facing up
-    motor.run_for_degrees(port.B, 90, 200)
+    await motor.run_for_degrees(port.C, -92, 200)
 
     # move robot forward to push crab facing up and to align with mission
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(8))
-
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(11.5), 0, velocity=100)
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(13))
 
     # move robot back to move away from Artificial Habitat
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
 
     # turn right to go towards Angler Fish
@@ -628,8 +634,8 @@ async def run5():
     # move robot forward to keep going towards Angler Fish
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(46))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=48, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(32))
 
 
 # END RUN 5
