@@ -356,6 +356,9 @@ async def run2():
     # lower Shark Hook to push the shark misson lever
     await motor.run_for_degrees(port.B, 100, 900)
 
+    # raise Shark Hook so it does not interfere with any other missions
+    motor.run_for_degrees(port.B, -85, 600)
+
     # turn right to get in alignment with scuba diver
     await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=96, stop=True)
 
@@ -369,16 +372,31 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.5)))
 
     # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.C, -800, 500)
+    await motor.run_for_degrees(port.C, -850, 500)
 
     # go forward towards scuba diver drop off
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(9.5), 0, velocity=100)
 
     # move fork down to fully release Scuba Diver
-    await motor.run_for_degrees(port.C, -250, 500)
+    await motor.run_for_degrees(port.C, -450, 800) 
 
-    # raise Shark Hook
-    await motor.run_for_degrees(port.B, -65, 400)
+    # # raise Shark Hook
+    # await motor.run_for_degrees(port.B, -80, 400)
+
+    # come back and get ready to turn right
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=96, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
+
+    # turn right to get in alignment so that the shark hook can hit coral reef buds
+    await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=-180, stop=True)
+
+    # lower Shark Hook to push the coral reef buds yellow lever
+    await motor.run_for_degrees(port.B, 110, 900)
+
+    # turn left to get in alignment to go back to base
+    await pivot_gyro_turn_abs(left_speed=-75, right_speed=75, angle=0, stop=True)
 
     # come back a bit to get to base
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(8), 0, velocity=-100)
