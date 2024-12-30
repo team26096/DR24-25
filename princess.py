@@ -529,7 +529,6 @@ async def run4():
 
     # move motor to lift food tray so it does not make whale vomit while coming back
     await motor.run_for_degrees(port.C, 200, -1100)
-    motor.run_for_degrees(port.C, 750, -1100)
 
     # move robot backward to move away from feed the whale
     motor.reset_relative_position(port.A, 0)
