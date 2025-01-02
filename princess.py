@@ -399,6 +399,9 @@ async def run2():
 # run 3 program
 async def run3():
 
+   # lower the fork halfway through going forward to drop shark
+    motor.run_for_degrees(port.C, 1100, 1000)
+
     # go straight to get out of base and in position to drop shark
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -427,7 +430,7 @@ async def run3():
     motor.run_for_degrees(port.B, 750, -700)
 
     # bring arm down to engage with research vessel
-    await motor.run_for_degrees(port.C, 2025, 1000)
+    await motor.run_for_degrees(port.C, 1200, 1000)
 
     # go a little forward to catch the krill
     motor.reset_relative_position(port.A, 0)
@@ -441,8 +444,8 @@ async def run3():
     # go forward with boat to get in the docking area
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-5.5, ki=0, kd=0, speed=350, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(62)))
+    await follow_gyro_angle(kp=-2.5, ki=0, kd=0, speed=600, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(59.5)))
 
     # come back to ensure arm dosen't get stuck
     motor.reset_relative_position(port.A, 0)
