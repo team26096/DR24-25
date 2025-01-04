@@ -397,6 +397,8 @@ async def run2():
 # RUN 3
 #----------------------------------------
 # run 3 program
+async def run3():
+
 # lower the fork halfway through going forward to drop shark
     motor.run_for_degrees(port.C, 1100, 1000)
 
