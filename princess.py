@@ -397,25 +397,17 @@ async def run2():
 # RUN 3
 #----------------------------------------
 # run 3 program
-async def run3():
-
-   # lower the fork halfway through going forward to drop shark
+# lower the fork halfway through going forward to drop shark
     motor.run_for_degrees(port.C, 1100, 1000)
 
     # go straight to get out of base and in position to drop shark
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(72)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(64)))
 
     # move rack to the left to drop off shark
     await motor.run_for_degrees(port.B, 700, -1000)
-
-    # come back to leave shark
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(3.5)))
 
     # bring rack inside so it doesn't pull back shark
     await motor.run_for_degrees(port.B, 500, 1000)
@@ -424,7 +416,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(20.5)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
     # move rack more to catch krill
     motor.run_for_degrees(port.B, 750, -700)
@@ -469,7 +461,7 @@ async def run3():
     # go forward (back) to push unexpected encounter lever and catch creature
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
 
     # go back (forward) to base
