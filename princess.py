@@ -393,7 +393,6 @@ async def run2():
 
 # END RUN 2
 #----------------------------------------
-
 # RUN 3
 #----------------------------------------
 # run 3 program
@@ -418,7 +417,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
     # move rack more to catch krill
     motor.run_for_degrees(port.B, 750, -700)
@@ -430,7 +429,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
     # bring the rack inside to catch krill
     await motor.run_for_degrees(port.B, 900, 1000)
@@ -463,7 +462,7 @@ async def run3():
     # go forward (back) to push unexpected encounter lever and catch creature
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
 
     # go back (forward) to base
@@ -474,6 +473,7 @@ async def run3():
 
 # END RUN 3
 #----------------------------------------
+
 
 # RUN 4
 #----------------------------------------
