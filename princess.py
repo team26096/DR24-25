@@ -308,7 +308,7 @@ async def run2():
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=30, stop=True)
 
     # lower fork arm to get in position to pick up diver
-    motor.run_for_degrees(port.C, -1550, 1100)
+    motor.run_for_degrees(port.C, -1525, 1100)
 
     # go forward to prepare for alignment with coral tree
     motor.reset_relative_position(port.A, 0)
@@ -398,7 +398,7 @@ async def run2():
 # run 3 program
 async def run3():
 
-# lower the fork halfway through going forward to drop shark
+    # lower the fork halfway through going forward to drop shark
     motor.run_for_degrees(port.C, 1100, 1000)
 
     # go straight to get out of base and in position to drop shark
