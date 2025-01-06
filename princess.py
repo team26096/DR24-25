@@ -480,7 +480,7 @@ async def run3():
 # run 4 program
 async def run4():
 
-    # go forward to to get out of base and go towards feed the whale
+   # go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -539,7 +539,7 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(27))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(26))
 
     # turn Sonar Discovery attachment motor to complete Sonar Discovery
     await motor.run_for_degrees(port.B, 480, -400)
@@ -548,7 +548,7 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(11))
 
     # turn attachment other way so it does not get stuck
     await motor.run_for_degrees(port.B, -100, -450)
