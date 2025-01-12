@@ -268,7 +268,7 @@ async def run1():
 
 # RUN 2
 #----------------------------------------
-# run 2 program - Raise the mast, Kraken's treasure, Diver Pickup, Diver Drop off, Coral buds, Coral Reef Buds, Shark Pick up 
+# run 2 program - Raise the mast, Kraken's treasure, Diver Pickup, Diver Drop off, Coral buds, Coral Reef Buds, Shark Pick up
 async def run2():
 
     # go straight to get out of base (backward)
@@ -305,16 +305,13 @@ async def run2():
     motor.run_for_degrees(port.C, -650, 1100)
 
     # turn left to prepare for alignment with coral tree
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=30, stop=True)
-
-    # lower fork arm to get in position to pick up diver
-    motor.run_for_degrees(port.C, -1525, 1100)
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=35, stop=True)
 
     # go forward to prepare for alignment with coral tree
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=30, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-350, target_angle=35, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # turn right to get in alignment with coral tree
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=90, stop=True)
@@ -323,10 +320,13 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-350, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+
+    # lower fork arm to get in position to pick up diver
+    await motor.run_for_degrees(port.C, -1525, 1100)
 
     # go straight to push coral tree buds
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=400)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=250)
 
     # raise fork arm to pick up diver
     await motor.run_for_degrees(port.C, 900, 1000)
@@ -480,7 +480,7 @@ async def run3():
 # run 4 program
 async def run4():
 
-   # go forward to to get out of base and go towards feed the whale
+# go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -560,13 +560,13 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=80, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(35))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(30))
 
     # move forward to come back to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(40))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=110, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(45))
 
 
 # END RUN 4
@@ -743,13 +743,14 @@ async def execute(run_numbers=None):
 runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-#runloop.run(execute([2, 3, 4, 5]))
+# runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-#runloop.run(execute([3, 4, 5]))
+# runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-#runloop.run(execute([4, 5]))
+# runloop.run(execute([4, 5]))
 
 # SLOT 4 - Run 5
-#runloop.run(execute([5]))
+# runloop.run(execute([5]))
+   
