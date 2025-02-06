@@ -316,8 +316,8 @@ async def run1():
     # go forward to leave pieces for shipping lanes
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(26)))
 
     # turn right to get in alignment with changing shipping lanes
     await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=45, stop=True)
@@ -325,26 +325,26 @@ async def run1():
     # go backward to engage with shipping lanes
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-100, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-300, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(21)))
 
     # raise shipping lane/seabed attachment to lift shipping lanes
-    await motor.run_for_degrees(port.C, 800, 900)
+    await motor.run_for_degrees(port.C, 1400, 900)
 
-    # turn right to get in alignment with changing shipping lanes
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=60, stop=True)
+    # turn right to drop shipping lanes on other side
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=95, stop=True)
 
     # go backward to ensure we are latched to shipping lane hooks
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-100, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-200, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # go forward to leave shipping lanes
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=100, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(21)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=300, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # turn left to get back into alignment with krill/coral pieces
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=0, stop=True)
@@ -353,7 +353,10 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(24)))
+
+    # reset shipping lanes attachment to get ready for sample collection
+    motor.run_for_degrees(port.C, -800, 900)
 
     # turn right to align with last krill
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=45, stop=True)
@@ -362,7 +365,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
 
     # turn to align with plankton hook
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=165, stop=True)
