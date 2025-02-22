@@ -500,12 +500,8 @@ async def run2():
     # come back to collect treasure and release mast
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=600, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=350, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
 
     # lower fork arm to get in position to pick up diver
     motor.run_for_degrees(port.C, -800, 1100)
@@ -513,14 +509,11 @@ async def run2():
     # turn left to prepare for alignment with coral tree
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=30, stop=True)
 
-    # lower fork arm to get in position to pick up diver
-    motor.run_for_degrees(port.C, -600, 1100)
-
     # go forward to prepare for alignment with coral tree
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=30, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
 
     # turn right to get in alignment with coral tree
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=90, stop=True)
@@ -532,13 +525,10 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
 
     # lower fork arm to get in position to pick up diver
-    await motor.run_for_degrees(port.C, -750, 1100)
+    await motor.run_for_degrees(port.C, -1350, 1100)
 
     # go straight to push coral tree buds
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=200)
-
-    # reset yaw to 0
-    do_init()
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(13), 0, velocity=200)
 
     # raise fork arm to pick up diver
     await motor.run_for_degrees(port.C, 900, 1000)
@@ -547,47 +537,46 @@ async def run2():
     # come back from Coral tree to get in alignment with Scuba Diver
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8.5)))
 
     # turn right to get in alignment with scuba diver
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=95, stop=True)
+    # await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=95, stop=True)
+    await turnRight(189)
 
     # come back to get in alignment with scuba diver
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=95, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=-170, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.5)))
 
     # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.C, -950, 500)
+    await motor.run_for_degrees(port.C, -875, 500)
 
     # go forward towards scuba diver drop off
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(11), 0, velocity=100)
 
     # move fork down to fully release Scuba Diver
-    await motor.run_for_degrees(port.C, -200, 800)
+    await motor.run_for_degrees(port.C, -250, 800)
 
     # come back and get ready to align with coral reef buds
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=95, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=-170, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
 
     # turn left to get in alignment with coral reef buds
-    await pivot_gyro_turn_abs(left_speed=-75, right_speed=75, angle=82, stop=True)
+    # await pivot_gyro_turn_abs(left_speed=-75, right_speed=75, angle=82, stop=True)
+    await turnLeft(184)
 
     # raise fork arm so coral reef hook can engage with yellow lever
-    await motor.run_for_degrees(port.C, 250, 1000)
+    await motor.run_for_degrees(port.C, 150, 1000)
 
     # go forward to complete coral reef buds mission
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=82, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(9), 0, velocity=200)
 
     # lower fork arm to ensure that the coral buds are pushed down
-    motor.run_for_degrees(port.C, -750, 1000)
+    motor.run_for_degrees(port.C, -1100, 1000)
 
     # lower Shark Hook to push the shark misson lever
     await motor.run_for_degrees(port.B, 125, 600)
@@ -596,20 +585,20 @@ async def run2():
     await motor.run_for_degrees(port.B, -125, 200)
 
     # raise fork arm to make sure that it doesen't get stuck when we come back
-    await motor.run_for_degrees(port.C, 625, 1100)
-    motor.run_for_degrees(port.C, 750, 1100)
+    await motor.run_for_degrees(port.C, 775, 1100)
+    motor.run_for_degrees(port.C, 775, 1100)
 
     # come back a bit to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(50), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=-1100)
 
     # raise fork arm to ensurre it isn't out of base
     motor.run_for_degrees(port.C, 1400, 1100)
 
+    # turn right to get fully in to base
+    await turnRight(210)
+
     # come back to get to base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=150, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(35.5)))
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(75), 0, velocity=-1100)
 
 # END RUN 2
 #----------------------------------------
