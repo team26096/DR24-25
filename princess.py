@@ -808,12 +808,16 @@ async def run5():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1000, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(36))
+    
+    # move forward at a lower speed for precision
     motor.reset_relative_position(port.A, 0)
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=200, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(5.5))
 
-    # turn right to flick mission into new position
+    # turn left a bit to get the momentum for flicking artifical habitat
     await pivot_gyro_turn_abs(-400, 400, -15, True)
+
+    # turn right to flick artificial habitat
     await pivot_gyro_turn_abs(800, -800, 50, True)
 
     # turn left to get back in alignment with Artifical Habitat
@@ -846,10 +850,8 @@ async def run5():
     # move robot forward to push crab facing up and to align with mission
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=-3, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(9))
-
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(11), 0, velocity=400)
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-6, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(20))
 
     # move robot back to move away from Artificial Habitat
     motor.reset_relative_position(port.A, 0)
@@ -858,14 +860,13 @@ async def run5():
         initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
 
     # turn right to go towards Unexpected encounter dropoff
-    await pivot_gyro_turn_abs(200, -200, 60, True)
+    await pivot_gyro_turn_abs(200, -200, 57, True)
 
     # move robot forward to keep going towards Unexpected encounter dropoff
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=60, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(36))
-
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=57, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(37))
 
 # END RUN 5
 #----------------------------------------
