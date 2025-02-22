@@ -115,12 +115,21 @@ async def pivot_gyro_turn_abs(left_speed=0, right_speed=50, angle=90, stop=False
     if stop: motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
 
-async def turn_left(speed=50, angle=90, stop=True):
-    await pivot_gyro_turn_abs(left_speed=0, right_speed=speed, angle=angle, stop=stop)
+def get_yaw_angle():
+    current_yaw = motion_sensor.tilt_angles()[0] * -0.1
+    if (current_yaw < 0):
+        return (current_yaw + 360)
+    return current_yaw
 
+async def turnRight(angle):
+    motor_pair.move_tank(motor_pair.PAIR_1, 200, -200)
+    while abs(get_yaw_angle()) <= angle: time.sleep_ms(10)
+    motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
-async def turn_right(speed=-50, angle=90, stop=True):
-    await pivot_gyro_turn_abs(left_speed=speed, right_speed=0, angle=angle, stop=stop)
+async def turnLeft(angle):
+    motor_pair.move_tank(motor_pair.PAIR_1, -200, 200)
+    while abs(get_yaw_angle()) >= angle: time.sleep_ms(10)
+    motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
 
 def get_time_taken_in_seconds(start_time, end_time):
