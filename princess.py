@@ -634,6 +634,9 @@ async def run3():
     # move forward to align with the shark drop off and krill pick up
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12.5), 0, velocity=400)
 
+    # move trident hook to latch on to trident
+    motor.run_for_degrees(port.B, 30, 400)
+
     # move back to drop off shark
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17.5), 0, velocity=-600)
 
