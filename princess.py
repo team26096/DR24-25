@@ -703,7 +703,7 @@ async def run3():
 # run 4 program
 async def run4():
 
-      # go forward to to get out of base and go towards feed the whale
+    # go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -716,7 +716,7 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(24)))
     initial_position = abs(motor.relative_position(port.A))
 
     # go forward to get away from shipping lanes
@@ -772,19 +772,19 @@ async def run4():
     await motor.run_for_degrees(port.B, -100, -450)
 
     # turn robot right to align for coming to base
-    await pivot_gyro_turn_abs(150, -150, 99, stop=True)
+    await pivot_gyro_turn_abs(150, 0, 99, stop=True)
 
     # move forward to come back to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=99, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(20))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(17))
 
     # move forward to come back to base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=154, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(70))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(75))
 
 # END RUN 4
 #----------------------------------------
