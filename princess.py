@@ -703,7 +703,7 @@ async def run3():
 # run 4 program
 async def run4():
 
-    # go forward to to get out of base and go towards feed the whale
+      # go forward to to get out of base and go towards feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -716,7 +716,7 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
     initial_position = abs(motor.relative_position(port.A))
 
     # go forward to get away from shipping lanes
@@ -732,13 +732,13 @@ async def run4():
 
     # go forward slower to have accurate position when turning
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
 
     # turn left to align with feed the whale
     await pivot_gyro_turn_abs(100, -100, 35, True)
 
     # move forward to open whale's mouth
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=300)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17), 0, velocity=300)
 
     # turn motor to move food tray down
     await motor.run_for_degrees(port.C, 1350, 1000)
