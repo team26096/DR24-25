@@ -616,7 +616,7 @@ async def run2():
 # run 3 program
 async def run3():
 
-    # turn to get ready to align with krill pick up
+      # turn to get ready to align with krill pick up
     await pivot_gyro_turn_abs(left_speed=225, right_speed=0, angle=62, stop=True)
 
     # bring arm down (1) to save time
@@ -635,7 +635,7 @@ async def run3():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12.5), 0, velocity=400)
 
     # move trident hook to latch on to trident
-    motor.run_for_degrees(port.B, 38, 300)
+    motor.run_for_degrees(port.B, 300, -600)
 
     # move back to drop off shark
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(18.5), 0, velocity=-600)
