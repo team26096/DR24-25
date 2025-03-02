@@ -575,7 +575,7 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
 
     # turn left to get in alignment with coral reef buds
-    await turnLeft(185)
+    await turnLeft(186)
 
     # raise fork arm so coral reef hook can engage with yellow lever
     await motor.run_for_degrees(port.C, 150, 1000)
@@ -616,7 +616,7 @@ async def run2():
 # run 3 program
 async def run3():
 
-      # turn to get ready to align with krill pick up
+    # turn to get ready to align with krill pick up
     await pivot_gyro_turn_abs(left_speed=225, right_speed=0, angle=62, stop=True)
 
     # bring arm down (1) to save time
@@ -727,7 +727,7 @@ async def run4():
 
     # go forward to get away from shipping lanes
     # await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-    #                 initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
+    #                initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
     # motor.reset_relative_position(port.A, 0)
     # initial_position = abs(motor.relative_position(port.A))
 
@@ -741,7 +741,7 @@ async def run4():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
 
     # turn left to align with feed the whale
-    await pivot_gyro_turn_abs(100, -100, 35, True)
+    await pivot_gyro_turn_abs(100, -100, 36, True)
 
     # move forward to open whale's mouth
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17), 0, velocity=400)
@@ -763,7 +763,7 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=94, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(32))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(31.5))
 
     # turn Sonar Discovery attachment motor to complete Sonar Discovery
     await motor.run_for_degrees(port.B, 520, -400)
@@ -966,13 +966,13 @@ async def execute(run_numbers=None):
 runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-#runloop.run(execute([2, 3, 4, 5]))
+# runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-#runloop.run(execute([3, 4, 5]))
+# runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-#runloop.run(execute([4, 5]))
+# runloop.run(execute([4, 5]))
 
 # SLOT 4 - Run 5
-#runloop.run(execute([5]))
+# runloop.run(execute([5]))
