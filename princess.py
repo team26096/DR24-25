@@ -141,16 +141,14 @@ def get_time_taken_in_seconds(start_time, end_time):
 # RUN FUNCTIONS
 #----------------------------------------
 
-# RUN 1 JAN
-#----------------------------------------
-# run 1 jan program
-async def run1jan():
+# run 1 program
+async def run1():
 
     # go backward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # turn left to get in alignment with krill
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-45, stop=True)
@@ -159,159 +157,10 @@ async def run1jan():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(21)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
 
-    # turn right to get in alignment with coral piece
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
-
-    # go backward to collect coral piece and krill and engage with shipping lanes
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(21)))
-
-    # raise shipping lanes attachment to lift lever
-    await motor.run_for_degrees(port.B, 1450, -600)
-
-    # turn right to bring shipping lanes to other side
-    await pivot_gyro_turn_abs(left_speed=125, right_speed=-125, angle=53, stop=True)
-
-    # raise submersible attachment to original position
-    motor.run_for_degrees(port.B, 1300, -1000)
-
-    # turn left to align to next krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=0, stop=True)
-
-    # go backward to collect krill
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
-
-    # turn right to align with last krill
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=45, stop=True)
-
-    # go backward to collect last krill
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
-
-    # turn to align with plankton hook
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=165, stop=True)
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=-93, stop=True)
-
-    # go forward to hook into plankton
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12),0,velocity=300)
-
-    # go backward to pull plankton
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(2),0,velocity=-300)
-
-    # go forward to get away from sonar discovery
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-93, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
-
-    # turn right to go forward
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=-88, stop=True)
-
-    # go backward toward seabed
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=-88, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(100)))
-
-    # bring send over the submersible attachment down
-    motor.run_for_degrees(port.B, 2500, 900)
-
-    # turn to place pieces
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-90, stop=True)
-
-    # go forward (back) to leave pieces
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-94, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
-
-    # turn to align to seabed sample
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
-
-    # go forward to engage with seabed sample
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17),0,velocity=-400)
-
-    # raise seabed sample hook to raise the sample and collect it
-    # raise send over the submersible attachment
-    motor.run_for_degrees(port.C, 1200, 900)
-    await motor.run_for_degrees(port.B, 2100, -1000)
-    motor.run_for_degrees(port.C, 800, 900)
-
-    # come back (go forward) to leave seabed
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
-
-    # turn to leave seabed sample
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-95, stop=True)
-
-    # go forward to recollect samples
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-700, target_angle=-95, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
-
-    # turn left to align with water sample/krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-102, stop=True)
-
-    # go forward to collect water sample and krill
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-102, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
-
-    # go forward to collect water sample and krill
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=-102, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
-
-    # turn left collect last coral piece
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-155, stop=True)
-
-    # go forward to collect last coral piece
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=-155, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
-
-    # go forward to get into base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=-125, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
-
-
-# END RUN 1 JAN
-#----------------------------------------
-
-# run 1 program
-async def run1():
-
-    # go backward to get out of base    # go backward to get out of base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
-
-    # turn left to get in alignment with krill
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-45, stop=True)
-
-    # go backward to collect krill
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
+    # move the rack to the right to prevent it from hitting unexpected encounter
+    motor.run_for_degrees(port.B, -700, 1100)
 
     # turn right to get in alignment with coral piece
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
@@ -320,7 +169,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(29)))
 
     # go forward to leave pieces for shipping lanes
     motor.reset_relative_position(port.A, 0)
@@ -335,7 +184,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # raise shipping lane/seabed attachment to lift shipping lanes
     await motor.run_for_degrees(port.C, 1350, 1100)
@@ -350,32 +199,35 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=75, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
     # turn left to get back into alignment with krill/coral pieces
     await pivot_gyro_turn_abs(left_speed=-150, right_speed=150, angle=0, stop=True)
-
-    # reset shipping lanes attachment to get ready for sample collection
-    motor.run_for_degrees(port.C, -800, 900)
 
     # go backward to recollect pieces
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(24)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(21)))
 
     # turn right to align with last krill
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=45, stop=True)
+
+    # move the rack to the right to prevent it from hitting plankton
+    await motor.run_for_degrees(port.B, 400, 1100)
 
     # go backward to collect last krill
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
+
+    # move the rack to the right to prevent it from hitting plankton
+    motor.run_for_degrees(port.B, 500, 1100)
 
     # turn to align with plankton hook
     # await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=165, stop=True)
-    await pivot_gyro_turn_abs(left_speed=-125, right_speed=125, angle=-87, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-125, right_speed=125, angle=-88, stop=True)
 
     # go forward to hook into plankton
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12),0,velocity=300)
@@ -397,7 +249,12 @@ async def run1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1000, target_angle=-91, sleep_time=0, follow_for=follow_for_distance,
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(19)))
-
+    
+    # move the rack to the right to get it in alignment with sonar discovery lever
+    motor.run_for_degrees(port.B, -1300, 1100)
+    
+    return
+    
     # go backward toward seabed
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
