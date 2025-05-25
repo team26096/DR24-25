@@ -674,6 +674,15 @@ async def run5():
     #    initial_position=initial_position, distance_to_cover=degrees_for_distance(17))
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17), 0, velocity=400)
 
+    # bring down sample arm to drop off the samples in the vessel
+    await motor.run_for_degrees(port.C, -120, 75, acceleration=150)
+
+    # sleep to ensure the samples are dropped
+    time.sleep_ms(1500)
+
+    # bring sample arm back up
+    await motor.run_for_degrees(port.C, 120, 500)
+
     # move robot back to complete alignment with Artificial Habitat
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
