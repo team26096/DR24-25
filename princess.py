@@ -188,14 +188,17 @@ async def run1():
     # turn right to drop shipping lanes on other side
     await pivot_gyro_turn_abs(left_speed=125, right_speed=-125, angle=100, stop=True)
 
-    # turn left to come back to original position
-    # await pivot_gyro_turn_abs(left_speed=-125, right_speed=125, angle=75, stop=True)
+    # go backward to drop shipping lanes
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=100, sleep_time=0, follow_for=follow_for_distance,
+    #         initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
 
     # go forward to leave shipping lanes
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=75, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(10.5)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=100, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(12.5)))
 
     # turn left to get back into alignment with krill/coral pieces
     await pivot_gyro_turn_abs(left_speed=-150, right_speed=150, angle=0, stop=True)
@@ -279,7 +282,7 @@ async def run1():
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # turn to leave seabed sample
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-93, stop=True) 
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-93, stop=True)
 
     # go forward to recollect samples
     motor.reset_relative_position(port.A, 0)
@@ -590,17 +593,17 @@ async def run4():
     # turn Sonar Discovery attachment motor to complete Sonar Discovery
     await motor.run_for_degrees(port.B, -350, -300)
 
-     # turn Sonar Discovery attachment motor not get stuck in Sonar Discovery
+    # turn Sonar Discovery attachment motor not get stuck in Sonar Discovery
     await motor.run_for_degrees(port.B, 100, -300)
 
-     # go backward slower to align with sonar discovery
+    # go backward slower to start aligning with feed the whale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
-     # turn right to align with feed the whale
-    await pivot_gyro_turn_abs(100, -100, 35, True)
+    # turn right to align with feed the whale
+    await pivot_gyro_turn_abs(100, -100, 36, True)
 
     # move forward to open whale's mouth
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(21), 0, velocity=600)
@@ -791,7 +794,7 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs#
-runloop.run(execute([2]))
+runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
 #runloop.run(execute([2, 3, 4, 5]))
