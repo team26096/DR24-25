@@ -604,7 +604,7 @@ async def run4():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(21), 0, velocity=600)
 
     # turn motor to move food tray down
-    await motor.run_for_degrees(port.C, 1350, 1100)
+    await motor.run_for_degrees(port.C, 1450, 1100)
 
     # move motor to lift food tray so it does not make whale vomit while coming back
     await motor.run_for_degrees(port.C, 200, -1100)
@@ -612,11 +612,10 @@ async def run4():
     # move robot backward to move away from feed the whale
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(20), 0, velocity=-900)
 
-    # turn left to align with feed the whale
-    await pivot_gyro_turn_abs(left_speed=-300, right_speed=300, angle=0, stop=True)
-    await pivot_gyro_turn_abs(left_speed=-300, right_speed=300, angle=-15, stop=True)
+    # turn left to align with base
+    await pivot_gyro_turn_abs(left_speed=-300, right_speed=300, angle=-7, stop=True)
 
-    # move robot backward to move away from feed the whale
+    # move robot backward to get to base
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(80), 0, velocity=-1100)
 
 # END RUN 4
