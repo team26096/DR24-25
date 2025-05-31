@@ -375,7 +375,7 @@ async def run2():
     await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=-91, stop=True)
 
     # lower coral tree arm to get in postion to lift coral tree
-    motor.run_for_degrees(port.B, -200, 500)
+    motor.run_for_degrees(port.B, 200, 500)
 
     # lower fork arm to get in position to pick up diver
     await motor.run_for_degrees(port.C, -1100, 1100)
@@ -384,13 +384,13 @@ async def run2():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=200)
 
     # lift coral tree arm to complete coral tree mission
-    motor.run_for_degrees(port.B, 200, 400)
+    motor.run_for_degrees(port.B, -200, 350)
 
     # raise fork arm to pick up diver
     await motor.run_for_degrees(port.C, 400, 500)
 
     # bring coral tree arm down
-    motor.run_for_degrees(port.B, -200, 200)
+    motor.run_for_degrees(port.B, 200, 200)
 
     # raise fork arm to pick up diver (2)
     await motor.run_for_degrees(port.C, 800, 1100)
@@ -402,20 +402,20 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
 
     # bring coral tree arm up
-    await motor.run_for_degrees(port.B, 200, 200)
+    await motor.run_for_degrees(port.B, -200, 200)
 
     # turn right to get in alignment with scuba diver
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=0, stop=True)
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=11, stop=True)
+    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=12, stop=True)
 
     # come back to get in alignment with scuba diver
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=11, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=12, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.5)))
 
     # put fork down to drop off Scuba Diver
-    await motor.run_for_degrees(port.C, -900, 1100)
+    await motor.run_for_degrees(port.C, -925, 1100)
 
     # go forward towards scuba diver drop off
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=200)
@@ -426,11 +426,11 @@ async def run2():
     # come back and get ready to align with coral reef buds
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=11, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-400, target_angle=12, sleep_time=0, follow_for=follow_for_distance,
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
 
     # turn left to get in alignment with coral reef buds
-    await pivot_gyro_turn_abs(left_speed=-150, right_speed=150, angle=5, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-150, right_speed=150, angle=6, stop=True)
 
     # raise fork arm so coral reef hook can engage with yellow lever
     await motor.run_for_degrees(port.C, 150, 1100)
@@ -439,20 +439,20 @@ async def run2():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(11.5), 0, velocity=200)
 
     # lower Shark Hook to push the shark misson lever
-    motor.run_for_degrees(port.B, -200, 600)
+    motor.run_for_degrees(port.B, 200, 600)
 
     # lower fork arm to ensure that the coral buds are pushed down
     await motor.run_for_degrees(port.C, -1275, 1100)
 
     # raise Shark Hook so it does not interfere with any other missions
-    motor.run_for_degrees(port.B, 200, 200)
+    motor.run_for_degrees(port.B, -200, 200)
 
     # raise fork arm to make sure that it doesen't get stuck when we come back
     await motor.run_for_degrees(port.C, 775, 1100)
     motor.run_for_degrees(port.C, 995, 1100)
 
     # come back a bit to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(35), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(45), 0, velocity=-1100)
 
     # raise fork arm to ensurre it isn't out of base
     motor.run_for_degrees(port.C, 1400, 1100)
