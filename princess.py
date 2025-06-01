@@ -265,12 +265,12 @@ async def run1():
 
     # raise seabed sample hook to raise the sample and collect it
     # raise send over the submersible attachment
-    motor.run_for_degrees(port.C, 1200, 900)
+    motor.run_for_degrees(port.C, 1100, 900)
     await motor.run_for_degrees(port.B, 1700, -1000)
     await runloop.sleep_ms(500)
-    motor.run_for_degrees(port.C, 800, 900)
+    motor.run_for_degrees(port.C, 700, 900)
 
-    # come back from seabed seabed
+    # come back from seabed
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -452,7 +452,7 @@ async def run2():
     motor.run_for_degrees(port.C, 995, 1100)
 
     # come back a bit to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(45), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(55), 0, velocity=-1100)
 
     # raise fork arm to ensurre it isn't out of base
     motor.run_for_degrees(port.C, 1400, 1100)
@@ -461,7 +461,7 @@ async def run2():
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=45, stop=True)
 
     # come back to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(50), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(40), 0, velocity=-1100)
 
 # END RUN 2
 #----------------------------------------
@@ -487,7 +487,7 @@ async def run3():
     await pivot_gyro_turn_abs(left_speed=0, right_speed=70, angle=54, stop=True)
 
     # move forward to align with the shark drop off and krill pick up
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(12.5), 0, velocity=400)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14.5), 0, velocity=400)
 
     # move trident hook to latch on to trident
     motor.run_for_degrees(port.B, 300, -600)
@@ -561,11 +561,17 @@ async def run3():
 # run 4 program
 async def run4():
 
-    # go forward to to get out of base and go towards feed the whale
+        # go forward to to get out of base and go towards feed the whale fast
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=900, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(42)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(35)))
+    
+    # go forward to to get out of base and go towards feed the whale slow
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
 
     # turn to avoid shipping lanes
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-26, stop=True)
@@ -573,8 +579,8 @@ async def run4():
     # go forward to avoid changing shipping lanes
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=-26, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(24)))
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=400, target_angle=-26, sleep_time=0, follow_for=follow_for_distance,
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(25.5)))
 
     # turn right to go straight
     await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=0, stop=True)
@@ -595,10 +601,10 @@ async def run4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-600, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
     # turn right to align with feed the whale
-    await pivot_gyro_turn_abs(100, -100, 36, True)
+    await pivot_gyro_turn_abs(100, -100, 35, True)
 
     # move forward to open whale's mouth
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(21), 0, velocity=600)
@@ -671,7 +677,7 @@ async def run5():
     # move robot forward to push crab facing up and to align with mission
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-5, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=500, target_angle=-8, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(20))
 
     # move robot back to move away from Artificial Habitat
@@ -791,13 +797,13 @@ async def execute(run_numbers=None):
 runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-#runloop.run(execute([2, 3, 4, 5]))
+# runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-#runloop.run(execute([3, 4, 5]))
+# runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-#runloop.run(execute([4, 5]))
+# runloop.run(execute([4, 5]))
 
 # SLOT 4 - Run 5
-#runloop.run(execute([5]))
+# runloop.run(execute([5]))
