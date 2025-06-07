@@ -184,7 +184,7 @@ async def run1():
             initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
     # raise shipping lane/seabed attachment to lift shipping lanes
-    await motor.run_for_degrees(port.C, 900, 1100)
+    await motor.run_for_degrees(port.C, 1000, 1100)
 
     # turn right to drop shipping lanes on other side
     await pivot_gyro_turn_abs(left_speed=125, right_speed=-125, angle=100, stop=True)
@@ -339,7 +339,7 @@ async def run2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-650, target_angle=-145, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(38.5)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(37)))
 
     # turn right to get in front of shipwreck
     await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=-90, stop=True)
@@ -372,7 +372,7 @@ async def run2():
                     initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
 
     # turn right to get in alignment with coral tree
-    await pivot_gyro_turn_abs(left_speed=75, right_speed=-75, angle=-90, stop=True)
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=-89, stop=True)
 
     # lower coral tree arm to get in postion to lift coral tree
     motor.run_for_degrees(port.B, 200, 500)
@@ -384,7 +384,7 @@ async def run2():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(14), 0, velocity=200)
 
     # lift coral tree arm to complete coral tree mission
-    motor.run_for_degrees(port.B, -75, 250)
+    await motor.run_for_degrees(port.B, -75, 250)
 
     # lift coral tree arm to complete coral tree mission
     motor.run_for_degrees(port.B, -125, 400)
@@ -393,7 +393,7 @@ async def run2():
     await motor.run_for_degrees(port.C, 400, 500)
 
     # bring coral tree arm down
-    await motor.run_for_degrees(port.B, 200, 150)
+    motor.run_for_degrees(port.B, 200, 150)
 
     # raise fork arm to pick up diver (2)
     await motor.run_for_degrees(port.C, 800, 1100)
@@ -461,10 +461,10 @@ async def run2():
     motor.run_for_degrees(port.C, 1400, 1100)
 
     # turn right to get fully in to base
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=20, stop=True)
+    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=65, stop=True)
 
     # come back to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(42), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(52), 0, velocity=-1100)
 
 # END RUN 2
 #----------------------------------------
@@ -534,7 +534,7 @@ async def run3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=900, target_angle=88, sleep_time=0, follow_for=follow_for_distance,
-                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(35)))
+                    initial_position=initial_position, distance_to_cover=(degrees_for_distance(39)))
 
     # turn to align with unexpected encounter
     await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=135, stop=True)
@@ -675,7 +675,7 @@ async def run5():
         initial_position=initial_position, distance_to_cover=degrees_for_distance(9))
 
     # bring scooper up to complete mission
-    await motor.run_for_degrees(port.B, -195, 1100)
+    await motor.run_for_degrees(port.B, -200, 1050, acceleration=5000)
 
     # move robot forward to push crab facing up and to align with mission
     motor.reset_relative_position(port.A, 0)
@@ -689,9 +689,6 @@ async def run5():
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=degrees_for_distance(10))
 
-    # # bring down sample arm to drop off the samples in the vessel
-    # await motor.run_for_degrees(port.C, -130, 75, acceleration=200)
-
     # turn right to go towards Unexpected encounter dropoff
     await pivot_gyro_turn_abs(300, -300, 57, True)
 
@@ -699,7 +696,7 @@ async def run5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=1100, target_angle=57, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=degrees_for_distance(37))
+        initial_position=initial_position, distance_to_cover=degrees_for_distance(35))
 
 # END RUN 5
 #----------------------------------------
