@@ -316,7 +316,7 @@ async def run1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-1100, target_angle=-140, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
 
 # END RUN 1
 #----------------------------------------
@@ -461,10 +461,10 @@ async def run2():
     motor.run_for_degrees(port.C, 1400, 1100)
 
     # turn right to get fully in to base
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=65, stop=True)
+    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=69, stop=True)
 
     # come back to get to base
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(52), 0, velocity=-1100)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(65), 0, velocity=-1100)
 
 # END RUN 2
 #----------------------------------------
