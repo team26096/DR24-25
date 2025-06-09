@@ -564,7 +564,7 @@ async def run3():
 # run 4 program
 async def run4():
 
-        # go forward to to get out of base and go towards feed the whale fast
+       # go forward to to get out of base and go towards feed the whale fast
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1.45, ki=0, kd=0, speed=800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -616,7 +616,7 @@ async def run4():
     await motor.run_for_degrees(port.C, 1450, 1100)
 
     # move motor to lift food tray so it does not make whale vomit while coming back
-    await motor.run_for_degrees(port.C, 200, -1100)
+    await motor.run_for_degrees(port.C, 400, -1100)
 
     # move robot backward to move away from feed the whale
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(20), 0, velocity=-900)
